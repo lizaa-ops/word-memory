@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>单词记忆法生成器</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,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" />
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: #f0f4f0;
+  height: 100vh;
+  overflow: hidden;
+  color: #4a4a4a;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: #f7f9f7;
+  border-right: 1px solid #e0e8e0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.sidebar-header {
+  padding: 20px 16px 12px;
+  border-bottom: 1px solid #e8ede8;
+}
+
+.sidebar-header h1 {
+  font-size: 1.2em;
+  color: #5c8a6e;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-header p {
+  font-size: 0.75em;
+  color: #9aaa9e;
+  margin-top: 2px;
+}
+
+.sidebar-search {
+  padding: 10px 16px;
+  border-bottom: 1px solid #e8ede8;
+}
+
+.sidebar-search input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d4e0d4;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.85em;
+  color: #3a3a3a;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.sidebar-search input:focus {
+  border-color: #7ec8a0;
+}
+
+.sidebar-search input::placeholder {
+  color: #b8c4b8;
+}
+
+.fav-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.fav-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.fav-list::-webkit-scrollbar-thumb {
+  background: #c8d8c8;
+  border-radius: 4px;
+}
+
+.fav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  gap: 10px;
+}
+
+.fav-item:hover {
+  background: #e8f0e8;
+}
+
+.fav-item.active {
+  background: #d4e8d4;
+}
+
+.fav-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #7ec8a0, #5c8a6e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.85em;
+  font-weight: 600;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.fav-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.fav-word {
+  font-size: 0.9em;
+  font-weight: 500;
+  color: #3a3a3a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fav-time {
+  font-size: 0.72em;
+  color: #a0b0a0;
+  margin-top: 2px;
+}
+
+.fav-type {
+  font-size: 0.65em;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  font-weight: 500;
+}
+
+.fav-type.word {
+  background: #e8f5ee;
+  color: #5c8a6e;
+}
+
+.fav-type.phrase {
+  background: #e8f0ff;
+  color: #5a7abf;
+}
+
+.fav-delete {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #c0c8c0;
+  font-size: 0.7em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.fav-item:hover .fav-delete {
+  opacity: 1;
+}
+
+.fav-delete:hover {
+  background: #f5c6cb;
+  color: #d9534f;
+}
+
+.sidebar-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #b0bcb0;
+  font-size: 0.85em;
+  padding: 40px 20px;
+  text-align: center;
+  gap: 8px;
+}
+
+.sidebar-empty .icon {
+  font-size: 2em;
+  opacity: 0.5;
+}
+
+/* ===== Main Content ===== */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.main-header {
+  padding: 16px 24px;
+  background: #fff;
+  border-bottom: 1px solid #e8ede8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.main-header h2 {
+  font-size: 1em;
+  color: #5c8a6e;
+}
+
+.main-header .actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-fav {
+  padding: 6px 16px;
+  border: 1px solid #7ec8a0;
+  border-radius: 8px;
+  background: transparent;
+  color: #5c8a6e;
+  font-size: 0.82em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-fav:hover {
+  background: rgba(126,200,160,0.1);
+}
+
+.btn-fav.saved {
+  background: #7ec8a0;
+  color: #fff;
+  border-color: #7ec8a0;
+}
+
+.btn-copy {
+  padding: 6px 16px;
+  border: 1px solid #7ec8a0;
+  border-radius: 8px;
+  background: transparent;
+  color: #5c8a6e;
+  font-size: 0.82em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-copy:hover {
+  background: rgba(126,200,160,0.1);
+}
+
+.main-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.main-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.main-body::-webkit-scrollbar-thumb {
+  background: #c8d8c8;
+  border-radius: 4px;
+}
+
+/* ===== Welcome ===== */
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #9aaa9e;
+  gap: 16px;
+}
+
+.welcome .icon {
+  font-size: 3em;
+  opacity: 0.4;
+}
+
+.welcome p {
+  font-size: 0.95em;
+}
+
+/* ===== Tabs ===== */
+.mode-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  background: #e8f0e8;
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.mode-tab {
+  flex: 1;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #7a8a7e;
+  font-size: 0.9em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-tab.active {
+  background: #fff;
+  color: #5c8a6e;
+  box-shadow: 0 1px 4px rgba(92,138,110,0.12);
+}
+
+.mode-tab:hover:not(.active) {
+  color: #5c8a6e;
+}
+
+/* ===== Input Card ===== */
+.input-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 8px rgba(92,138,110,0.06);
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 14px;
+}
+
+.input-group:last-child {
+  margin-bottom: 0;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.82em;
+  color: #7a8a7e;
+  margin-bottom: 6px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #c8e0d0;
+  border-radius: 8px;
+  background: #fafcfa;
+  color: #3a3a3a;
+  font-size: 0.95em;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group input:focus {
+  border-color: #7ec8a0;
+  box-shadow: 0 0 0 3px rgba(126,200,160,0.12);
+  background: #fff;
+}
+
+.input-group input::placeholder {
+  color: #b8c4b8;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.input-row .input-group {
+  flex: 1;
+}
+
+.btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #7ec8a0, #5c8a6e);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px rgba(92,138,110,0.2);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.key-hint {
+  font-size: 0.75em;
+  color: #a8b4a8;
+  margin-top: 4px;
+}
+
+.key-hint a {
+  color: #7ec8a0;
+  text-decoration: none;
+}
+
+.key-hint a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Loading ===== */
+.loading {
+  display: none;
+  text-align: center;
+  padding: 60px 0;
+}
+
+.loading.active {
+  display: block;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(126,200,160,0.2);
+  border-top-color: #7ec8a0;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 14px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading p {
+  color: #8a9a8e;
+  font-size: 0.88em;
+}
+
+/* ===== Error ===== */
+.error-msg {
+  display: none;
+  background: #fff5f5;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #d9534f;
+  font-size: 0.88em;
+  margin-bottom: 16px;
+}
+
+.error-msg.active {
+  display: block;
+}
+
+/* ===== Result ===== */
+.result-area {
+  display: none;
+}
+
+.result-area.active {
+  display: block;
+}
+
+.markdown-body {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 1px 8px rgba(92,138,110,0.06);
+  line-height: 1.8;
+  color: #4a4a4a;
+}
+
+.markdown-body h1 {
+  font-size: 1.5em;
+  color: #5c8a6e;
+  border-bottom: 2px solid #d4ede0;
+  padding-bottom: 8px;
+  margin: 24px 0 16px;
+}
+
+.markdown-body h1:first-child {
+  margin-top: 0;
+}
+
+.markdown-body h2 {
+  font-size: 1.2em;
+  color: #6a9e7e;
+  margin: 20px 0 12px;
+}
+
+.markdown-body h3 {
+  font-size: 1em;
+  color: #5a6a5e;
+  margin: 16px 0 8px;
+}
+
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+}
+
+.markdown-body th, .markdown-body td {
+  padding: 10px 14px;
+  border: 1px solid #d4ede0;
+  text-align: left;
+}
+
+.markdown-body th {
+  background: #e8f5ee;
+  color: #5c8a6e;
+  font-weight: 600;
+}
+
+.markdown-body tr:nth-child(even) {
+  background: #f7fbf9;
+}
+
+.markdown-body blockquote {
+  border-left: 3px solid #7ec8a0;
+  padding: 8px 16px;
+  margin: 12px 0;
+  background: #f0f9f4;
+  border-radius: 0 8px 8px 0;
+  color: #5a6a5e;
+}
+
+.markdown-body strong {
+  color: #5c8a6e;
+}
+
+.markdown-body ul, .markdown-body ol {
+  padding-left: 24px;
+  margin: 8px 0;
+}
+
+.markdown-body li {
+  margin: 4px 0;
+}
+
+.markdown-body hr {
+  border: none;
+  border-top: 1px solid #d4ede0;
+  margin: 20px 0;
+}
+
+.markdown-body code {
+  background: #e8f5ee;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #5c8a6e;
+}
+
+/* ===== Mobile ===== */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.4em;
+  color: #5c8a6e;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 99;
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    position: fixed;
+    left: -280px;
+    top: 0;
+    z-index: 100;
+    transition: left 0.25s;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar-overlay.open {
+    display: block;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .main-header {
+    padding: 12px 14px;
+  }
+
+  .main-header h2 {
+    font-size: 0.9em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+  }
+
+  .main-body {
+    padding: 12px;
+  }
+
+  .mode-tabs {
+    margin-bottom: 12px;
+  }
+
+  .mode-tab {
+    padding: 8px 10px;
+    font-size: 0.82em;
+  }
+
+  .input-card {
+    padding: 16px;
+  }
+
+  .input-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .markdown-body {
+    padding: 16px;
+    font-size: 0.92em;
+  }
+
+  .markdown-body h1 {
+    font-size: 1.25em;
+  }
+
+  .markdown-body h2 {
+    font-size: 1.08em;
+  }
+
+  .markdown-body table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  .markdown-body th, .markdown-body td {
+    padding: 8px 10px;
+    font-size: 0.88em;
+  }
+
+  .markdown-body blockquote {
+    padding: 6px 12px;
+    font-size: 0.92em;
+  }
+
+  .markdown-body ul, .markdown-body ol {
+    padding-left: 18px;
+  }
+
+  .btn-fav, .btn-copy {
+    padding: 5px 10px;
+    font-size: 0.78em;
+  }
+
+  .fav-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 0.78em;
+  }
+
+  .fav-word {
+    font-size: 0.85em;
+  }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1>Word Memory</h1>
+      <p>单词 & 词组速记</p>
+    </div>
+    <div class="sidebar-search">
+      <input type="text" id="searchInput" placeholder="搜索收藏的单词..." oninput="filterFavorites()" />
+    </div>
+    <div class="fav-list" id="favList">
+      <div class="sidebar-empty" id="sidebarEmpty">
+        <div class="icon">&#128218;</div>
+        <p>还没有收藏单词</p>
+        <p style="font-size:0.8em">生成记忆法后点击"收藏"即可保存</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="main-header">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="menu-toggle" onclick="toggleSidebar()">&#9776;</button>
+        <h2 id="mainTitle">输入单词开始</h2>
+      </div>
+      <div class="actions" id="mainActions" style="display:none;">
+        <button class="btn-fav" id="favBtn" onclick="toggleFavorite()">收藏</button>
+        <button class="btn-copy" onclick="copyMarkdown()">复制</button>
+      </div>
+    </div>
+
+    <div class="main-body">
+      <!-- Welcome -->
+      <div class="welcome" id="welcomeArea">
+        <div class="icon">&#128214;</div>
+        <p id="welcomeText">输入一个英语单词，AI 帮你生成过目不忘的记忆法</p>
+      </div>
+
+      <!-- Mode Tabs -->
+      <div class="mode-tabs" id="modeTabs">
+        <button class="mode-tab active" data-mode="word" onclick="switchMode('word')">&#128218; 单词速记</button>
+        <button class="mode-tab" data-mode="phrase" onclick="switchMode('phrase')">&#128221; 词组速记</button>
+      </div>
+
+      <!-- Input -->
+      <div class="input-card" id="inputCard">
+        <div class="input-group">
+          <label>DeepSeek API Key</label>
+          <input type="password" id="apiKey" placeholder="sk-xxxxxxxx" />
+          <div class="key-hint">从 <a href="https://platform.deepseek.com/api_keys" target="_blank">platform.deepseek.com</a> 获取，Key 仅存在本地浏览器</div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label id="inputLabel">输入单词</label>
+            <input type="text" id="wordInput" placeholder="例如：testimony" autofocus />
+          </div>
+          <button class="btn btn-primary" id="generateBtn" onclick="generate()">生成</button>
+        </div>
+      </div>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>正在生成记忆法，请稍候...</p>
+      </div>
+
+      <div class="result-area" id="resultArea">
+        <div class="markdown-body" id="markdownContent"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function parseMd(md) {
+  let html = md;
+  html = html.replace(/```[\s\S]*?```/g, '');
+  const lines = html.split('\n');
+  let result = [];
+  let inTable = false;
+  let inList = false;
+  let listType = '';
+
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+
+    if (/^\|(.+)\|$/.test(line.trim())) {
+      if (i + 1 < lines.length && /^\|[\s\-:|]+\|$/.test(lines[i + 1].trim())) {
+        if (!inTable) {
+          result.push('<table>');
+          const headers = line.trim().slice(1, -1).split('|').map(c => `<th>${inlineFormat(c.trim())}</th>`).join('');
+          result.push(`<thead><tr>${headers}</tr></thead><tbody>`);
+          inTable = true;
+          i++;
+          continue;
+        }
+      }
+      if (inTable) {
+        const cols = line.trim().slice(1, -1).split('|').map(c => `<td>${inlineFormat(c.trim())}</td>`).join('');
+        result.push(`<tr>${cols}</tr>`);
+        continue;
+      }
+    } else if (inTable) {
+      result.push('</tbody></table>');
+      inTable = false;
+    }
+
+    if (/^#{1,6}\s/.test(line)) {
+      const level = line.match(/^(#{1,6})/)[1].length;
+      const text = inlineFormat(line.replace(/^#{1,6}\s+/, ''));
+      result.push(`<h${level}>${text}</h${level}>`);
+      continue;
+    }
+
+    if (/^>\s?/.test(line)) {
+      const text = inlineFormat(line.replace(/^>\s?/, ''));
+      result.push(`<blockquote><p>${text}</p></blockquote>`);
+      continue;
+    }
+
+    if (/^---+$/.test(line.trim())) {
+      result.push('<hr>');
+      continue;
+    }
+
+    if (/^[\*\-]\s/.test(line)) {
+      if (!inList || listType !== 'ul') {
+        if (inList) result.push(`</${listType}>`);
+        result.push('<ul>');
+        inList = true;
+        listType = 'ul';
+      }
+      result.push(`<li>${inlineFormat(line.replace(/^[\*\-]\s+/, ''))}</li>`);
+      continue;
+    }
+
+    if (/^\d+\.\s/.test(line)) {
+      if (!inList || listType !== 'ol') {
+        if (inList) result.push(`</${listType}>`);
+        result.push('<ol>');
+        inList = true;
+        listType = 'ol';
+      }
+      result.push(`<li>${inlineFormat(line.replace(/^\d+\.\s+/, ''))}</li>`);
+      continue;
+    }
+
+    if (inList && line.trim() === '') {
+      result.push(`</${listType}>`);
+      inList = false;
+      listType = '';
+      continue;
+    }
+
+    if (line.trim() === '') continue;
+
+    result.push(`<p>${inlineFormat(line)}</p>`);
+  }
+
+  if (inTable) result.push('</tbody></table>');
+  if (inList) result.push(`</${listType}>`);
+
+  return result.join('\n');
+}
+
+function inlineFormat(text) {
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  text = text.replace(/`(.+?)`/g, '<code>$1</code>');
+  return text;
+}
+
+const apiKeyInput = document.getElementById('apiKey');
+const wordInput = document.getElementById('wordInput');
+const generateBtn = document.getElementById('generateBtn');
+const loadingEl = document.getElementById('loading');
+const resultArea = document.getElementById('resultArea');
+const markdownContent = document.getElementById('markdownContent');
+const mainTitle = document.getElementById('mainTitle');
+const mainActions = document.getElementById('mainActions');
+const favBtn = document.getElementById('favBtn');
+const errorMsg = document.getElementById('errorMsg');
+const welcomeArea = document.getElementById('welcomeArea');
+const favList = document.getElementById('favList');
+const sidebarEmpty = document.getElementById('sidebarEmpty');
+const searchInput = document.getElementById('searchInput');
+
+let lastMarkdown = '';
+let lastWord = '';
+let currentMode = 'word';
+
+const welcomeText = document.getElementById('welcomeText');
+const inputLabel = document.getElementById('inputLabel');
+
+function switchMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+  if (mode === 'word') {
+    inputLabel.textContent = '输入单词';
+    wordInput.placeholder = '例如：testimony';
+    welcomeText.textContent = '输入一个英语单词，AI 帮你生成过目不忘的记忆法';
+  } else {
+    inputLabel.textContent = '输入词组';
+    wordInput.placeholder = '例如：break the ice';
+    welcomeText.textContent = '输入一个英语词组/短语，AI 帮你生成快速记忆法';
+  }
+  wordInput.value = '';
+  wordInput.focus();
+}
+
+const WORD_PROMPT = `你是一个英语单词记忆法大师。用户会给你一个英语单词，你需要生成一份详细的、帮助记忆的 Markdown 文档。
+
+请严格按照以下格式输出（用 Markdown 语法）：
+
+# 巧记单词：[单词]
+
+## 单词信息
+（用表格展示：单词、音标、词性、中文含义）
+
+---
+
+## 拆分巧记
+
+### 方法一：[方法名]
+（将单词拆分成熟悉的部分，用表格列出每部分含义，然后用加粗的联想场景描述一个生动的画面）
+
+### 方法二：[方法名]
+（另一种拆分或联想方式）
+
+### 方法三：谐音法
+（用中文谐音编一个有趣的故事/画面，越荒诞越好记）
+
+---
+
+## 词族串联
+（用表格展示同词根/同家族的其他单词，帮助举一反三）
+
+---
+
+## 词源趣闻
+（如果该词有有趣的词源故事就写，没有就写一个帮助记忆的文化联想）
+
+---
+
+## 例句
+（3个例句，英文加粗目标单词，下面附中文翻译）
+
+---
+
+## 常见搭配
+（用表格列出4-6个常见搭配及含义）
+
+要求：
+1. 联想场景要生动、有画面感，最好荒诞有趣，让人过目不忘
+2. 谐音要尽量贴近原词发音
+3. 如果单词可以拆成已知英语单词（如 test + money），优先用这种方式
+4. 词族串联要有实际意义，不要硬凑
+5. 所有内容用中文解释
+6. 只输出 Markdown 内容，不要加代码块标记`;
+
+const PHRASE_PROMPT = `你是一个英语词组速记大师。用户会给你一个英语词组/短语，你需要生成一份帮助快速记忆的 Markdown 文档。
+
+请严格按照以下格式输出（用 Markdown 语法）：
+
+# 巧记词组：[词组]
+
+## 词组信息
+（用表格展示：词组、音标、中文含义、使用场景）
+
+---
+
+## 拆分速记
+
+### 逐词拆解
+（将词组中每个单词的含义列出来，用表格展示）
+
+### 方法一：画面联想法
+（把词组的字面意思编成一个生动荒诞的画面，让人一看就记住实际含义）
+
+### 方法二：谐音/故事法
+（用中文谐音或编一个小故事来记忆）
+
+---
+
+## 使用场景
+（列出3-4个典型使用场景，每个场景配一句例句）
+
+---
+
+## 近义表达
+（用表格列出2-4个意思相近的词组/表达，帮助扩展）
+
+---
+
+## 易混辨析
+（如果有容易混淆的类似词组，用表格对比说明区别）
+
+要求：
+1. 画面联想要生动有趣，越荒诞越好记
+2. 重点解释词组为什么是这个意思（字面义 vs 实际义）
+3. 所有内容用中文解释
+4. 只输出 Markdown 内容，不要加代码块标记`;
+
+function getFavorites() {
+  try { return JSON.parse(localStorage.getItem('word_favorites') || '[]'); } catch { return []; }
+}
+
+function saveFavorites(favs) {
+  localStorage.setItem('word_favorites', JSON.stringify(favs));
+}
+
+function isFavorited(word) {
+  return getFavorites().some(f => f.word.toLowerCase() === word.toLowerCase());
+}
+
+function toggleFavorite() {
+  if (!lastWord || !lastMarkdown) return;
+  let favs = getFavorites();
+  const idx = favs.findIndex(f => f.word.toLowerCase() === lastWord.toLowerCase());
+  if (idx > -1) {
+    favs.splice(idx, 1);
+  } else {
+    favs.unshift({ word: lastWord, markdown: lastMarkdown, time: Date.now(), type: currentMode });
+  }
+  saveFavorites(favs);
+  updateFavBtn();
+  renderFavorites();
+}
+
+function updateFavBtn() {
+  if (lastWord && isFavorited(lastWord)) {
+    favBtn.textContent = '已收藏';
+    favBtn.classList.add('saved');
+  } else {
+    favBtn.textContent = '收藏';
+    favBtn.classList.remove('saved');
+  }
+}
+
+function deleteFavorite(word, e) {
+  e.stopPropagation();
+  let favs = getFavorites().filter(f => f.word.toLowerCase() !== word.toLowerCase());
+  saveFavorites(favs);
+  if (lastWord.toLowerCase() === word.toLowerCase()) updateFavBtn();
+  renderFavorites();
+}
+
+function showFavorite(word) {
+  const fav = getFavorites().find(f => f.word.toLowerCase() === word.toLowerCase());
+  if (!fav) return;
+  lastWord = fav.word;
+  lastMarkdown = fav.markdown;
+  currentMode = fav.type || 'word';
+  switchMode(currentMode);
+  wordInput.value = fav.word;
+  mainTitle.textContent = fav.word;
+  markdownContent.innerHTML = parseMd(fav.markdown);
+  resultArea.classList.add('active');
+  welcomeArea.style.display = 'none';
+  mainActions.style.display = 'flex';
+  updateFavBtn();
+  closeSidebar();
+}
+
+function formatTime(ts) {
+  const d = new Date(ts);
+  const now = new Date();
+  if (d.toDateString() === now.toDateString()) {
+    return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+  }
+  return (d.getMonth()+1) + '/' + d.getDate();
+}
+
+function renderFavorites(filter) {
+  const favs = getFavorites();
+  const keyword = (filter || '').toLowerCase();
+  const filtered = keyword ? favs.filter(f => f.word.toLowerCase().includes(keyword)) : favs;
+
+  if (favs.length === 0) {
+    sidebarEmpty.style.display = 'flex';
+    favList.querySelectorAll('.fav-item').forEach(el => el.remove());
+    return;
+  }
+
+  sidebarEmpty.style.display = 'none';
+  favList.querySelectorAll('.fav-item').forEach(el => el.remove());
+
+  filtered.forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'fav-item' + (lastWord.toLowerCase() === f.word.toLowerCase() ? ' active' : '');
+    div.onclick = () => showFavorite(f.word);
+    const initial = f.word.charAt(0).toUpperCase();
+    const typeLabel = f.type === 'phrase' ? '词组' : '单词';
+    const typeClass = f.type === 'phrase' ? 'phrase' : 'word';
+    div.innerHTML = `
+      <div class="fav-avatar">${initial}</div>
+      <div class="fav-info">
+        <div class="fav-word">${f.word}<span class="fav-type ${typeClass}">${typeLabel}</span></div>
+        <div class="fav-time">${formatTime(f.time)}</div>
+      </div>
+      <button class="fav-delete" onclick="deleteFavorite('${f.word.replace(/'/g, "\\'")}', event)" title="取消收藏">&#10005;</button>
+    `;
+    favList.appendChild(div);
+  });
+}
+
+function filterFavorites() {
+  renderFavorites(searchInput.value);
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+renderFavorites();
+
+const savedKey = localStorage.getItem('deepseek_api_key');
+if (savedKey) apiKeyInput.value = savedKey;
+apiKeyInput.addEventListener('change', () => {
+  localStorage.setItem('deepseek_api_key', apiKeyInput.value.trim());
+});
+
+wordInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') generate();
+});
+
+function showError(msg) {
+  errorMsg.textContent = msg;
+  errorMsg.classList.add('active');
+  setTimeout(() => errorMsg.classList.remove('active'), 5000);
+}
+
+async function generate() {
+  const word = wordInput.value.trim();
+  const apiKey = apiKeyInput.value.trim();
+
+  if (!word) { showError('请输入一个单词'); return; }
+  if (!apiKey) { showError('请输入 DeepSeek API Key'); return; }
+
+  localStorage.setItem('deepseek_api_key', apiKey);
+
+  generateBtn.disabled = true;
+  loadingEl.classList.add('active');
+  resultArea.classList.remove('active');
+  welcomeArea.style.display = 'none';
+  errorMsg.classList.remove('active');
+
+  try {
+    const res = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [
+          { role: 'system', content: currentMode === 'word' ? WORD_PROMPT : PHRASE_PROMPT },
+          { role: 'user', content: `${currentMode === 'word' ? '单词' : '词组'}：${word}` }
+        ],
+        temperature: 0.8,
+        max_tokens: 2000
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `API 请求失败 (${res.status})`);
+    }
+
+    const data = await res.json();
+    const md = data.choices?.[0]?.message?.content;
+    if (!md) throw new Error('API 返回内容为空');
+
+    lastWord = word;
+    lastMarkdown = md;
+    mainTitle.textContent = `${currentMode === 'word' ? '单词' : '词组'}：${word}`;
+    markdownContent.innerHTML = parseMd(md);
+    resultArea.classList.add('active');
+    mainActions.style.display = 'flex';
+    updateFavBtn();
+    renderFavorites();
+  } catch (err) {
+    showError(err.message || '生成失败，请检查 API Key 和网络');
+    welcomeArea.style.display = 'flex';
+  } finally {
+    generateBtn.disabled = false;
+    loadingEl.classList.remove('active');
+  }
+}
+
+function copyMarkdown() {
+  if (!lastMarkdown) return;
+  navigator.clipboard.writeText(lastMarkdown).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    btn.textContent = '已复制!';
+    setTimeout(() => btn.textContent = '复制', 1500);
+  });
+}
+</script>
+</body>
+</html>
