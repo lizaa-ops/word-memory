@@ -1,0 +1,4772 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Memory · iOS 风格</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM0AAADICAYAAABLcWXbAAAMtklEQVR4Aeyda1LbyBqGu+0sxBzmz6kkaxjYCezihJqqQNUUmV1AVkLOGobU+TMMnH3E1nwvtokTY1mXltWXx6VGRmr15fn0WG1ZsieOBwQg0IoA0rTA==">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: #f0f4f0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  color: #4a4a4a;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: #f7f9f7;
+  border-right: 1px solid #e0e8e0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.sidebar-header {
+  padding: 20px 16px 12px;
+  border-bottom: 1px solid #e8ede8;
+}
+
+.sidebar-header h1 {
+  font-size: 1.2em;
+  color: #5c8a6e;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-header p {
+  font-size: 0.75em;
+  color: #9aaa9e;
+  margin-top: 2px;
+}
+
+.sidebar-search {
+  padding: 10px 16px;
+  border-bottom: 1px solid #e8ede8;
+}
+
+.sidebar-search input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d4e0d4;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.85em;
+  color: #3a3a3a;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.sidebar-search input:focus {
+  border-color: #7ec8a0;
+}
+
+.sidebar-search input::placeholder {
+  color: #b8c4b8;
+}
+
+.sidebar-sort {
+  display: flex;
+  gap: 0;
+  padding: 6px 16px 8px;
+  border-bottom: 1px solid #e8ede8;
+  background: #f7f9f7;
+}
+
+.sort-btn {
+  flex: 1;
+  padding: 5px 8px;
+  border: 1px solid #d4e0d4;
+  border-radius: 6px;
+  background: #fff;
+  color: #8a9a8e;
+  font-size: 0.68em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.sort-btn:first-child {
+  border-radius: 6px 0 0 6px;
+  border-right: none;
+}
+
+.sort-btn:last-child {
+  border-radius: 0 6px 6px 0;
+}
+
+.sort-btn.active {
+  background: #5c8a6e;
+  color: #fff;
+  border-color: #5c8a6e;
+}
+
+.sort-btn:hover:not(.active) {
+  background: #e8f0e8;
+  color: #5c8a6e;
+}
+
+.sidebar-data-actions {
+  display: flex;
+  gap: 6px;
+  padding: 8px 16px;
+  border-bottom: 1px solid #e8ede8;
+}
+
+.sidebar-data-btn {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #c8d8cc;
+  border-radius: 6px;
+  background: #fff;
+  color: #5c7a65;
+  font-size: 0.72em;
+  cursor: pointer;
+}
+
+.sidebar-data-btn:hover {
+  background: #eef5ef;
+  border-color: #8fbaa0;
+}
+
+.data-message {
+  display: none;
+  margin: 0 16px 8px;
+  padding: 7px 9px;
+  border-radius: 6px;
+  font-size: 0.72em;
+  line-height: 1.4;
+}
+
+.data-message.active { display: block; }
+.data-message.success { color: #27643c; background: #e8f5ec; }
+.data-message.error { color: #9b3434; background: #fceaea; }
+
+/* ===== Review Stats Bar ===== */
+.review-stats-bar {
+  padding: 10px 16px;
+  border-bottom: 1px solid #e8ede8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f7f9f7;
+}
+
+.review-stats-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.review-stats-label {
+  font-size: 0.7em;
+  color: #9aaa9e;
+}
+
+.review-stats-count {
+  font-size: 0.82em;
+  color: #5c8a6e;
+  font-weight: 600;
+}
+
+.review-stats-count .due-num {
+  color: #e07050;
+}
+
+.btn-start-review {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #7ec8a0, #5c8a6e);
+  color: #fff;
+  font-size: 0.72em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-start-review:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(92,138,110,0.2);
+}
+
+.btn-start-review:disabled {
+  background: #c8d8c8;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.status-help-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid #9aaa9e;
+  font-size: 0.65em;
+  font-weight: 700;
+  color: #9aaa9e;
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 6px;
+  vertical-align: middle;
+  transition: all 0.2s;
+  line-height: 1;
+}
+.status-help-link:hover {
+  background: #5c8a6e;
+  border-color: #5c8a6e;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.status-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+.status-modal-overlay.open { display: flex; }
+
+.status-modal {
+  background: #fff;
+  border-radius: 14px;
+  max-width: 420px;
+  width: 90%;
+  padding: 28px 24px 20px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+  position: relative;
+  animation: modalIn 0.2s ease;
+}
+@keyframes modalIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.status-modal-close {
+  position: absolute;
+  top: 10px; right: 14px;
+  background: none; border: none;
+  font-size: 1.3em; cursor: pointer;
+  color: #9aaa9e;
+  line-height: 1;
+}
+.status-modal-close:hover { color: #5c8a6e; }
+
+.status-modal h3 {
+  margin: 0 0 14px;
+  font-size: 1.05em;
+  color: #5c8a6e;
+}
+
+.status-modal-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 0.88em;
+  color: #4a4a4a;
+}
+
+.status-modal-row .dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot.new { background: #7ec8a0; }
+.dot.learning { background: #f0ad4e; }
+.dot.due { background: #e07050; }
+.dot.reviewed { background: #5c8a6e; }
+.dot.mastered { background: #9b7ec8; }
+
+.status-modal-note {
+  margin-top: 14px;
+  font-size: 0.8em;
+  color: #9aaa9e;
+  line-height: 1.5;
+  border-top: 1px solid #e8ede8;
+  padding-top: 10px;
+}
+
+.fav-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.fav-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.fav-list::-webkit-scrollbar-thumb {
+  background: #c8d8c8;
+  border-radius: 4px;
+}
+
+.fav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  gap: 10px;
+}
+
+.fav-item:hover {
+  background: #e8f0e8;
+}
+
+.fav-item.active {
+  background: #d4e8d4;
+}
+
+.fav-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #7ec8a0, #5c8a6e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.85em;
+  font-weight: 600;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.fav-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.fav-word {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fav-word > span:first-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.fav-time {
+  font-size: 0.72em;
+  color: #a0b0a0;
+  margin-top: 2px;
+}
+
+.fav-type {
+  font-size: 0.65em;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.fav-type.word {
+  background: #e8f5ee;
+  color: #5c8a6e;
+}
+
+.fav-type.phrase {
+  background: #e8f0ff;
+  color: #5a7abf;
+}
+
+/* ===== Review Status Dot ===== */
+.fav-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.fav-status-dot.new { background: #7ec8a0; }
+.fav-status-dot.learning { background: #f0ad4e; }
+.fav-status-dot.due { background: #e07050; }
+.fav-status-dot.reviewed { background: #5c8a6e; }
+.fav-status-dot.mastered { background: #9b7ec8; }
+
+.fav-delete {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #c0c8c0;
+  font-size: 0.7em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.fav-item:hover .fav-delete {
+  opacity: 1;
+}
+
+.fav-delete:hover {
+  background: #f5c6cb;
+  color: #d9534f;
+}
+
+.fav-relearn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #9b7ec8;
+  font-size: 0.85em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.fav-item:hover .fav-relearn {
+  opacity: 1;
+}
+
+.fav-relearn:hover {
+  background: #f0e8f8;
+  color: #7a5ea8;
+}
+
+.sidebar-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #b0bcb0;
+  font-size: 0.85em;
+  padding: 40px 20px;
+  text-align: center;
+  gap: 8px;
+}
+
+.sidebar-empty .icon {
+  font-size: 2em;
+  opacity: 0.5;
+}
+
+/* ===== Main Content ===== */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.main-header {
+  padding: 16px 24px;
+  background: #fff;
+  border-bottom: 1px solid #e8ede8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.main-header h2 {
+  font-size: 1em;
+  color: #5c8a6e;
+}
+
+.main-header .actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-fav {
+  padding: 6px 14px;
+  border: 1px solid #7ec8a0;
+  border-radius: 8px;
+  background: transparent;
+  color: #5c8a6e;
+  font-size: 1.15em;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.btn-fav:hover {
+  background: rgba(126,200,160,0.1);
+}
+
+.btn-fav.saved {
+  background: #7ec8a0;
+  color: #fff;
+  border-color: #7ec8a0;
+}
+
+.btn-copy {
+  padding: 6px 14px;
+  border: 1px solid #7ec8a0;
+  border-radius: 8px;
+  background: transparent;
+  color: #5c8a6e;
+  font-size: 1.15em;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.btn-copy:hover {
+  background: rgba(126,200,160,0.1);
+}
+
+.main-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.main-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.main-body::-webkit-scrollbar-thumb {
+  background: #c8d8c8;
+  border-radius: 4px;
+}
+
+/* ===== Welcome ===== */
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #9aaa9e;
+  gap: 16px;
+}
+
+.welcome .icon {
+  font-size: 3em;
+  opacity: 0.4;
+}
+
+.welcome p {
+  font-size: 0.95em;
+}
+
+/* ===== Tabs ===== */
+.mode-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  background: #e8f0e8;
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.mode-tab {
+  flex: 1;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #7a8a7e;
+  font-size: 0.9em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-tab.active {
+  background: #fff;
+  color: #5c8a6e;
+  box-shadow: 0 1px 4px rgba(92,138,110,0.12);
+}
+
+.mode-tab:hover:not(.active) {
+  color: #5c8a6e;
+}
+
+/* ===== Input Card ===== */
+.input-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 8px rgba(92,138,110,0.06);
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 14px;
+}
+
+.input-group:last-child {
+  margin-bottom: 0;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.82em;
+  color: #7a8a7e;
+  margin-bottom: 6px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #c8e0d0;
+  border-radius: 8px;
+  background: #fafcfa;
+  color: #3a3a3a;
+  font-size: 0.95em;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group input:focus {
+  border-color: #7ec8a0;
+  box-shadow: 0 0 0 3px rgba(126,200,160,0.12);
+  background: #fff;
+}
+
+.input-group input::placeholder {
+  color: #b8c4b8;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.input-row .input-group {
+  flex: 1;
+}
+
+.btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #7ec8a0, #5c8a6e);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px rgba(92,138,110,0.2);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.key-hint {
+  font-size: 0.75em;
+  color: #a8b4a8;
+  margin-top: 4px;
+}
+
+.key-hint a {
+  color: #7ec8a0;
+  text-decoration: none;
+}
+
+.key-hint a:hover {
+  text-decoration: underline;
+}
+
+.key-save-option {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  margin-bottom: 0 !important;
+  color: #8a9a8e !important;
+  cursor: pointer;
+}
+
+.key-save-option input {
+  width: auto !important;
+  padding: 0 !important;
+  accent-color: #5c8a6e;
+}
+
+/* ===== Loading ===== */
+.loading {
+  display: none;
+  text-align: center;
+  padding: 60px 0;
+}
+
+.loading.active {
+  display: block;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(126,200,160,0.2);
+  border-top-color: #7ec8a0;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 14px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading p {
+  color: #8a9a8e;
+  font-size: 0.88em;
+}
+
+/* ===== Error ===== */
+.error-msg {
+  display: none;
+  background: #fff5f5;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #d9534f;
+  font-size: 0.88em;
+  margin-bottom: 16px;
+}
+
+.error-msg.active {
+  display: block;
+}
+
+/* ===== Result ===== */
+.result-area {
+  display: none;
+}
+
+.result-area.active {
+  display: block;
+}
+
+.markdown-body {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 1px 8px rgba(92,138,110,0.06);
+  line-height: 1.8;
+  color: #4a4a4a;
+}
+
+.markdown-body h1 {
+  font-size: 1.5em;
+  color: #5c8a6e;
+  border-bottom: 2px solid #d4ede0;
+  padding-bottom: 8px;
+  margin: 24px 0 16px;
+}
+
+.markdown-body h1:first-child {
+  margin-top: 0;
+}
+
+.markdown-body h2 {
+  font-size: 1.2em;
+  color: #6a9e7e;
+  margin: 20px 0 12px;
+}
+
+.markdown-body h3 {
+  font-size: 1em;
+  color: #5a6a5e;
+  margin: 16px 0 8px;
+}
+
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+}
+
+.table-scroll-shell {
+  position: relative;
+  margin: 12px 0;
+}
+
+.markdown-body .table-scroll {
+  max-width: 100%;
+}
+
+.markdown-body .table-scroll table {
+  margin: 0;
+}
+
+.table-swipe-hint {
+  display: none;
+}
+
+.markdown-body th, .markdown-body td {
+  padding: 10px 14px;
+  border: 1px solid #d4ede0;
+  text-align: left;
+}
+
+.markdown-body th {
+  background: #e8f5ee;
+  color: #5c8a6e;
+  font-weight: 600;
+}
+
+.markdown-body td {
+  font-weight: 400;
+}
+
+.markdown-body td:first-child {
+  color: #4a4a4a;
+  font-weight: 500;
+}
+
+.markdown-body td strong {
+  font-weight: 400;
+}
+
+.markdown-body tr:nth-child(even) {
+  background: #f7fbf9;
+}
+
+.markdown-body blockquote {
+  border-left: 3px solid #7ec8a0;
+  padding: 8px 16px;
+  margin: 12px 0;
+  background: #f0f9f4;
+  border-radius: 0 8px 8px 0;
+  color: #5a6a5e;
+}
+
+.markdown-body strong {
+  color: #5c8a6e;
+}
+
+.markdown-body ul, .markdown-body ol {
+  padding-left: 24px;
+  margin: 8px 0;
+}
+
+.markdown-body li {
+  margin: 4px 0;
+}
+
+.markdown-body hr {
+  border: none;
+  border-top: 1px solid #d4ede0;
+  margin: 20px 0;
+}
+
+.markdown-body code {
+  background: #e8f5ee;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #5c8a6e;
+}
+
+/* ===== Review Mode ===== */
+.review-mode {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  height: 100%;
+}
+
+.review-mode.active {
+  display: flex;
+}
+
+.review-top-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 16px;
+}
+
+.btn-exit-review {
+  padding: 6px 14px;
+  border: 1px solid #d4e0d4;
+  border-radius: 8px;
+  background: #fff;
+  color: #5c8a6e;
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-exit-review:hover {
+  background: #e8f0e8;
+}
+
+.review-progress-text {
+  font-size: 0.88em;
+  color: #7a8a7e;
+  font-weight: 500;
+}
+
+.review-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #e8f0e8;
+  border-radius: 2px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.review-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7ec8a0, #5c8a6e);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Flashcard */
+.flashcard-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 520px;
+  perspective: 1200px;
+}
+
+.flashcard {
+  width: 100%;
+  height: 340px;
+  cursor: pointer;
+  position: relative;
+}
+
+.flashcard-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+  transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+.flashcard-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  box-shadow: 0 4px 24px rgba(92,138,110,0.08);
+}
+
+.flashcard-front {
+  background: linear-gradient(145deg, #fff 0%, #f0f9f4 100%);
+  border: 1px solid #d4ede0;
+}
+
+.flashcard-back {
+  background: #fff;
+  border: 1px solid #d4ede0;
+  transform: rotateY(180deg);
+  overflow-y: auto;
+}
+
+.fc-word {
+  font-size: 2.4em;
+  font-weight: 700;
+  color: #5c8a6e;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.fc-type-badge {
+  font-size: 0.75em;
+  padding: 2px 10px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.fc-type-badge.word { background: #e8f5ee; color: #5c8a6e; }
+.fc-type-badge.phrase { background: #e8f0ff; color: #5a7abf; }
+
+.fc-flip-hint {
+  font-size: 0.82em;
+  color: #b8c4b8;
+  margin-top: auto;
+}
+
+.fc-phonetic {
+  font-size: 1em;
+  color: #9aaa9e;
+  margin-bottom: 10px;
+}
+
+.fc-meaning {
+  font-size: 1.35em;
+  color: #3a3a3a;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+.fc-tip {
+  font-size: 0.85em;
+  color: #6a8a7e;
+  text-align: center;
+  line-height: 1.7;
+  max-height: 130px;
+  overflow-y: auto;
+  padding: 0 4px;
+}
+
+.fc-tip::-webkit-scrollbar { width: 3px; }
+.fc-tip::-webkit-scrollbar-thumb { background: #c8d8c8; border-radius: 3px; }
+
+/* Rating Buttons */
+.rating-area {
+  width: 100%;
+  max-width: 520px;
+  padding: 20px 0 8px;
+}
+
+.rating-label {
+  text-align: center;
+  font-size: 0.78em;
+  color: #9aaa9e;
+  margin-bottom: 10px;
+}
+
+.rating-btns {
+  display: none;
+  gap: 10px;
+}
+
+.rating-btns.active {
+  display: flex;
+}
+
+.rate-btn {
+  flex: 1;
+  padding: 12px 6px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.85em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.rate-btn .rate-sub {
+  font-size: 0.72em;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.rate-again { background: #e07050; }
+.rate-again:hover { background: #c85a3a; }
+.rate-hard { background: #f0ad4e; }
+.rate-hard:hover { background: #d69a3a; }
+.rate-good { background: #5c8a6e; }
+.rate-good:hover { background: #4a7a5e; }
+.rate-easy { background: #5a8abf; }
+.rate-easy:hover { background: #4a7aaf; }
+
+/* Review Complete */
+.review-done {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
+  gap: 12px;
+  padding: 40px 20px;
+}
+
+.review-done.active {
+  display: flex;
+}
+
+.review-done .done-icon {
+  font-size: 3.5em;
+}
+
+.review-done h3 {
+  font-size: 1.3em;
+  color: #5c8a6e;
+}
+
+.review-done p {
+  font-size: 0.9em;
+  color: #7a8a7e;
+  line-height: 1.6;
+}
+
+.review-done .done-stats {
+  display: flex;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.done-stat {
+  text-align: center;
+}
+
+.done-stat-num {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #5c8a6e;
+}
+
+.done-stat-label {
+  font-size: 0.72em;
+  color: #9aaa9e;
+  margin-top: 2px;
+}
+
+.btn-back-home {
+  margin-top: 12px;
+  padding: 10px 28px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #7ec8a0, #5c8a6e);
+  color: #fff;
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-back-home:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px rgba(92,138,110,0.2);
+}
+
+/* ===== Mobile ===== */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.4em;
+  color: #5c8a6e;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 99;
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    position: fixed;
+    left: -280px;
+    top: 0;
+    z-index: 100;
+    transition: left 0.25s;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar-overlay.open {
+    display: block;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .main-header {
+    padding: 12px 14px;
+  }
+
+  .main-header h2 {
+    font-size: 0.9em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+  }
+
+  .main-body {
+    padding: 12px;
+  }
+
+  .mode-tabs {
+    margin-bottom: 12px;
+  }
+
+  .mode-tab {
+    padding: 8px 10px;
+    font-size: 0.82em;
+  }
+
+  .input-card {
+    padding: 16px;
+  }
+
+  .input-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .markdown-body {
+    padding: 16px;
+    font-size: 0.92em;
+  }
+
+  .markdown-body h1 {
+    font-size: 1.25em;
+  }
+
+  .markdown-body h2 {
+    font-size: 1.08em;
+  }
+
+  .markdown-body table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  .markdown-body th, .markdown-body td {
+    padding: 8px 10px;
+    font-size: 0.88em;
+  }
+
+  .markdown-body blockquote {
+    padding: 6px 12px;
+    font-size: 0.92em;
+  }
+
+  .markdown-body ul, .markdown-body ol {
+    padding-left: 18px;
+  }
+
+  .btn-fav, .btn-copy {
+    padding: 5px 10px;
+    font-size: 1.1em;
+  }
+
+  .fav-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 0.78em;
+  }
+
+  .fav-word {
+    font-size: 0.85em;
+  }
+
+  .flashcard {
+    height: 280px;
+  }
+
+  .fc-word {
+    font-size: 1.8em;
+  }
+
+  .fc-meaning {
+    font-size: 1.15em;
+  }
+
+  .rating-btns {
+    gap: 6px;
+  }
+
+  .rate-btn {
+    padding: 10px 4px;
+    font-size: 0.78em;
+  }
+}
+</style>
+
+<style>
+/* ===== iOS Edition: visual layer only; application logic stays compatible ===== */
+:root {
+  --ios-blue: #5aa9ff;
+  --ios-blue-deep: #327fc9;
+  --ios-blue-rgb: 90, 169, 255;
+  --ios-green: #30b875;
+  --ios-orange: #ff9f0a;
+  --ios-red: #ff453a;
+  --ios-purple: #8e5be8;
+  --ios-ink: #17202a;
+  --ios-secondary: #67717e;
+  --ios-tertiary: #98a1ad;
+  --ios-line: rgba(60, 60, 67, 0.12);
+  --ios-line-strong: rgba(60, 60, 67, 0.18);
+  --ios-surface: rgba(255, 255, 255, 0.76);
+  --ios-surface-solid: #ffffff;
+  --ios-sidebar: rgba(247, 249, 252, 0.78);
+  --ios-canvas: #eef2f7;
+  --ios-shadow-sm: 0 1px 2px rgba(20, 29, 43, 0.04), 0 8px 24px rgba(20, 29, 43, 0.06);
+  --ios-shadow-md: 0 18px 48px rgba(26, 38, 58, 0.10), 0 2px 8px rgba(26, 38, 58, 0.05);
+  --ios-shadow-float: 0 28px 80px rgba(25, 38, 60, 0.18), 0 6px 20px rgba(25, 38, 60, 0.08);
+  --ios-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ios-snappy: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+html {
+  background: var(--ios-canvas);
+}
+
+body {
+  font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont,
+    "Segoe UI Variable", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--ios-ink);
+  background:
+    radial-gradient(circle at 84% 8%, rgba(10, 132, 255, 0.11), transparent 32%),
+    radial-gradient(circle at 72% 92%, rgba(48, 184, 117, 0.08), transparent 28%),
+    linear-gradient(145deg, #f7f9fc 0%, #edf2f8 48%, #f6f8fb 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,0.22) 1px, transparent 1px);
+  background-size: 100% 3px;
+  opacity: 0.18;
+  mask-image: linear-gradient(to bottom, black, transparent 70%);
+}
+
+button,
+input {
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+.app {
+  position: relative;
+  isolation: isolate;
+  animation: iosShellIn 720ms var(--ios-spring) both;
+}
+
+@keyframes iosShellIn {
+  from { opacity: 0; transform: scale(0.992) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Sidebar: translucent navigation rail */
+.sidebar {
+  width: 312px;
+  min-width: 312px;
+  background: var(--ios-sidebar);
+  border-right: 1px solid rgba(255, 255, 255, 0.82);
+  box-shadow: inset -1px 0 0 var(--ios-line), 10px 0 42px rgba(45, 60, 82, 0.045);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+}
+
+.sidebar-header {
+  padding: 26px 22px 18px;
+  border-bottom: 0;
+}
+
+.sidebar-header h1 {
+  display: flex;
+  align-items: center;
+  font-size: 1.34rem;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: var(--ios-ink);
+  font-weight: 730;
+}
+
+.sidebar-header p {
+  margin-top: 6px;
+  color: var(--ios-tertiary);
+  font-size: 0.73rem;
+  font-weight: 520;
+  letter-spacing: 0.02em;
+}
+
+.status-help-link {
+  width: 22px;
+  height: 22px;
+  margin-left: 8px;
+  border: 0;
+  background: rgba(118, 118, 128, 0.10);
+  color: var(--ios-secondary);
+  font-size: 0.68rem;
+  transition: transform 300ms var(--ios-spring), background 180ms ease, color 180ms ease;
+}
+
+.status-help-link:hover {
+  background: var(--ios-blue);
+  color: #fff;
+  transform: scale(1.08) rotate(4deg);
+}
+
+.sidebar-search {
+  padding: 0 16px 12px;
+  border-bottom: 0;
+}
+
+.sidebar-search input,
+.input-group input {
+  border: 1px solid rgba(60, 60, 67, 0.10);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ios-ink);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 1px rgba(20,29,43,0.02);
+  transition: border-color 180ms ease, box-shadow 220ms ease, background 180ms ease, transform 220ms var(--ios-spring);
+}
+
+.sidebar-search input {
+  padding: 10px 13px 10px 36px;
+  border-radius: 11px;
+  font-size: 0.82rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238d96a2' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px center;
+}
+
+.sidebar-search input:focus,
+.input-group input:focus {
+  border-color: rgba(10, 132, 255, 0.48);
+  background-color: rgba(255,255,255,0.94);
+  box-shadow: 0 0 0 4px rgba(10,132,255,0.11), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+.sidebar-search input::placeholder,
+.input-group input::placeholder {
+  color: #a2aab4;
+}
+
+.sidebar-sort {
+  margin: 0 16px 10px;
+  padding: 3px;
+  gap: 3px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(118, 118, 128, 0.11);
+}
+
+.sort-btn,
+.sort-btn:first-child,
+.sort-btn:last-child {
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ios-secondary);
+  font-size: 0.70rem;
+  font-weight: 620;
+  transition: background 220ms ease, color 180ms ease, box-shadow 220ms ease, transform 260ms var(--ios-spring);
+}
+
+.sort-btn.active {
+  color: var(--ios-ink);
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 1px 5px rgba(24,35,52,0.10), inset 0 0 0 0.5px rgba(0,0,0,0.035);
+}
+
+.sort-btn:hover:not(.active) {
+  background: rgba(255,255,255,0.40);
+  color: var(--ios-ink);
+}
+
+.sort-btn:active,
+.sidebar-data-btn:active,
+.btn:active,
+.btn-start-review:active,
+.btn-fav:active,
+.btn-copy:active,
+.rate-btn:active {
+  transform: scale(0.965);
+  transition-duration: 90ms;
+}
+
+.sidebar-data-actions {
+  padding: 0 16px 12px;
+  gap: 8px;
+  border-bottom: 1px solid var(--ios-line);
+}
+
+.sidebar-data-btn {
+  padding: 8px 9px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.62);
+  color: var(--ios-blue-deep);
+  font-size: 0.70rem;
+  font-weight: 620;
+  box-shadow: inset 0 0 0 1px rgba(60,60,67,0.08);
+  transition: transform 280ms var(--ios-spring), background 180ms ease, box-shadow 180ms ease;
+}
+
+.sidebar-data-btn:hover {
+  background: rgba(255,255,255,0.92);
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(10,132,255,0.16), 0 6px 16px rgba(30,55,90,0.07);
+}
+
+.data-message {
+  margin: 0 16px 10px;
+  border-radius: 11px;
+  font-weight: 520;
+  animation: iosNoticeIn 420ms var(--ios-spring) both;
+}
+
+@keyframes iosNoticeIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.data-message.success { color: #167044; background: rgba(48,184,117,0.12); }
+.data-message.error { color: #b4231c; background: rgba(255,69,58,0.11); }
+
+.review-stats-bar {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--ios-line);
+  background: transparent;
+}
+
+.review-stats-label {
+  color: var(--ios-tertiary);
+  font-size: 0.66rem;
+  font-weight: 560;
+  text-transform: uppercase;
+  letter-spacing: 0.055em;
+}
+
+.review-stats-count {
+  color: var(--ios-secondary);
+  font-size: 0.78rem;
+  font-weight: 620;
+}
+
+.review-stats-count .due-num { color: var(--ios-red); }
+
+.btn-start-review {
+  padding: 7px 12px;
+  border-radius: 10px;
+  background: var(--ios-blue);
+  font-size: 0.72rem;
+  box-shadow: 0 6px 15px rgba(10,132,255,0.22);
+  transition: transform 280ms var(--ios-spring), box-shadow 200ms ease, filter 180ms ease;
+}
+
+.btn-start-review:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 9px 22px rgba(10,132,255,0.28);
+  filter: saturate(1.05);
+}
+
+.btn-start-review:disabled {
+  color: #8f98a3;
+  background: rgba(118,118,128,0.12);
+  box-shadow: none;
+}
+
+.fav-list {
+  padding: 8px 10px 18px;
+}
+
+.fav-list::-webkit-scrollbar,
+.main-body::-webkit-scrollbar { width: 5px; }
+
+.fav-list::-webkit-scrollbar-thumb,
+.main-body::-webkit-scrollbar-thumb {
+  background: rgba(60,60,67,0.20);
+  border-radius: 10px;
+}
+
+.fav-item {
+  margin: 2px 0;
+  padding: 10px 9px;
+  gap: 10px;
+  border-radius: 13px;
+  border: 1px solid transparent;
+  animation: iosRowIn 420ms var(--ios-spring) both;
+  transition: transform 320ms var(--ios-spring), background 180ms ease, border-color 180ms ease, box-shadow 220ms ease;
+}
+
+@keyframes iosRowIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.fav-item:hover {
+  background: rgba(255,255,255,0.66);
+  border-color: rgba(255,255,255,0.75);
+  transform: translateX(3px);
+  box-shadow: 0 7px 20px rgba(28,44,66,0.055);
+}
+
+.fav-item.active {
+  background: rgba(10,132,255,0.10);
+  border-color: rgba(10,132,255,0.10);
+}
+
+.fav-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #46a2ff, #0878e6);
+  box-shadow: 0 7px 16px rgba(10,132,255,0.20), inset 0 1px 0 rgba(255,255,255,0.35);
+}
+
+.fav-word > span:first-child {
+  color: var(--ios-ink);
+  font-weight: 590;
+  letter-spacing: -0.012em;
+}
+
+.fav-time { color: var(--ios-tertiary); }
+
+.fav-type {
+  border-radius: 6px;
+  font-weight: 620;
+}
+
+.fav-type.word { background: rgba(48,184,117,0.11); color: #16814d; }
+.fav-type.phrase { background: rgba(10,132,255,0.10); color: var(--ios-blue-deep); }
+
+.fav-status-dot {
+  width: 7px;
+  height: 7px;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.62);
+}
+
+.fav-status-dot.new, .dot.new { background: var(--ios-green); }
+.fav-status-dot.learning, .dot.learning { background: var(--ios-orange); }
+.fav-status-dot.due, .dot.due { background: var(--ios-red); }
+.fav-status-dot.reviewed, .dot.reviewed { background: #4f9273; }
+.fav-status-dot.mastered, .dot.mastered { background: var(--ios-purple); }
+
+.fav-delete,
+.fav-relearn {
+  border-radius: 8px;
+  transition: opacity 180ms ease, transform 260ms var(--ios-spring), background 180ms ease;
+}
+
+.fav-delete:hover,
+.fav-relearn:hover { transform: scale(1.08); }
+
+.sidebar-empty {
+  color: var(--ios-tertiary);
+  line-height: 1.45;
+}
+
+.sidebar-empty .icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.64);
+  box-shadow: var(--ios-shadow-sm);
+  opacity: 0.72;
+}
+
+/* Main workspace */
+.main {
+  position: relative;
+  min-width: 0;
+  container-type: inline-size;
+  container-name: main-workspace;
+}
+
+.main-header {
+  min-height: 68px;
+  padding: 14px 28px;
+  background: rgba(249, 251, 254, 0.66);
+  border-bottom: 1px solid rgba(255,255,255,0.76);
+  box-shadow: inset 0 -1px 0 var(--ios-line);
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  z-index: 20;
+}
+
+.main-header h2 {
+  color: var(--ios-ink);
+  font-size: 0.95rem;
+  font-weight: 670;
+  letter-spacing: -0.025em;
+}
+
+.main-header .actions { gap: 9px; }
+
+.btn-fav,
+.btn-copy,
+.menu-toggle {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(60,60,67,0.10);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.72);
+  color: var(--ios-blue);
+  box-shadow: 0 5px 14px rgba(24,35,52,0.06), inset 0 1px 0 rgba(255,255,255,0.95);
+  transition: transform 300ms var(--ios-spring), background 180ms ease, box-shadow 200ms ease;
+}
+
+.btn-fav:hover,
+.btn-copy:hover,
+.menu-toggle:hover {
+  background: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 9px 22px rgba(24,35,52,0.10);
+}
+
+.menu-toggle { display: none; }
+
+.btn-fav.saved {
+  background: var(--ios-blue);
+  border-color: var(--ios-blue);
+  box-shadow: 0 8px 20px rgba(10,132,255,0.25);
+}
+
+.main-body {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+  padding: 34px 38px 52px;
+  scroll-behavior: smooth;
+}
+
+.welcome {
+  min-height: clamp(260px, 42vh, 430px);
+  height: auto;
+  gap: 18px;
+  color: var(--ios-secondary);
+  animation: iosHeroIn 820ms 100ms var(--ios-spring) both;
+}
+
+@keyframes iosHeroIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.welcome .icon {
+  display: grid;
+  place-items: center;
+  width: 86px;
+  height: 86px;
+  border-radius: 26px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.96), rgba(244,248,253,0.82));
+  box-shadow: var(--ios-shadow-md), inset 0 1px 0 #fff;
+  font-size: 2.25rem;
+  opacity: 1;
+  transform: rotate(-3deg);
+  animation: iosBookFloat 5.5s ease-in-out infinite;
+}
+
+@keyframes iosBookFloat {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+.welcome p {
+  max-width: 460px;
+  color: var(--ios-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  text-align: center;
+}
+
+.mode-tabs {
+  max-width: 680px;
+  margin: 0 auto 14px;
+  padding: 4px;
+  border-radius: 13px;
+  background: rgba(118,118,128,0.12);
+  box-shadow: inset 0 0 0 0.5px rgba(60,60,67,0.05);
+}
+
+.mode-tab {
+  padding: 10px 18px;
+  border-radius: 10px;
+  color: var(--ios-secondary);
+  font-size: 0.82rem;
+  font-weight: 630;
+  transition: color 180ms ease, background 240ms ease, box-shadow 240ms ease, transform 300ms var(--ios-spring);
+}
+
+.mode-tab.active {
+  color: var(--ios-ink);
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 2px 8px rgba(24,35,52,0.12), inset 0 0 0 0.5px rgba(0,0,0,0.035);
+}
+
+.mode-tab:hover:not(.active) {
+  color: var(--ios-ink);
+  background: rgba(255,255,255,0.34);
+}
+
+.input-card,
+.markdown-body {
+  border: 1px solid rgba(255,255,255,0.88);
+  background: var(--ios-surface);
+  box-shadow: var(--ios-shadow-md), inset 0 0 0 0.5px var(--ios-line);
+  backdrop-filter: blur(24px) saturate(145%);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+}
+
+.input-card {
+  max-width: 680px;
+  margin: 0 auto 22px;
+  padding: 26px;
+  border-radius: 22px;
+  animation: iosCardIn 720ms 180ms var(--ios-spring) both;
+}
+
+@keyframes iosCardIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.input-group { margin-bottom: 17px; }
+
+.input-group label {
+  margin: 0 0 7px 2px;
+  color: var(--ios-secondary);
+  font-size: 0.76rem;
+  font-weight: 610;
+}
+
+.input-group input {
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 0.91rem;
+}
+
+.key-hint {
+  margin: 7px 2px 0;
+  color: var(--ios-tertiary);
+  font-size: 0.71rem;
+}
+
+.key-hint a { color: var(--ios-blue-deep); }
+
+.key-save-option {
+  margin-top: 10px !important;
+  color: var(--ios-secondary) !important;
+  font-weight: 500 !important;
+}
+
+.key-save-option input { accent-color: var(--ios-blue); }
+
+.input-row { gap: 12px; }
+
+.btn {
+  min-height: 45px;
+  border-radius: 13px;
+  font-size: 0.88rem;
+  letter-spacing: -0.01em;
+  transition: transform 300ms var(--ios-spring), box-shadow 220ms ease, filter 180ms ease;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #1892ff 0%, #087be9 100%);
+  box-shadow: 0 10px 24px rgba(10,132,255,0.25), inset 0 1px 0 rgba(255,255,255,0.28);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(10,132,255,0.31), inset 0 1px 0 rgba(255,255,255,0.28);
+}
+
+.btn-primary:disabled { background: #a9c8e8; box-shadow: none; }
+
+.error-msg {
+  max-width: 680px;
+  margin: 0 auto 16px;
+  border: 1px solid rgba(255,69,58,0.14);
+  border-radius: 13px;
+  background: rgba(255,69,58,0.09);
+  color: #b4231c;
+  animation: iosNoticeIn 360ms var(--ios-spring) both;
+}
+
+.loading {
+  color: var(--ios-secondary);
+  animation: iosContentIn 420ms var(--ios-spring) both;
+}
+
+.spinner {
+  width: 34px;
+  height: 34px;
+  border-color: rgba(10,132,255,0.14);
+  border-top-color: var(--ios-blue);
+}
+
+.loading p { color: var(--ios-secondary); }
+
+.result-area.active {
+  display: block;
+  animation: iosContentIn 560ms var(--ios-spring) both;
+}
+
+@keyframes iosContentIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.992); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.markdown-body {
+  border-radius: 24px;
+  padding: 34px 36px;
+  color: #313a45;
+  line-height: 1.82;
+}
+
+.markdown-body h1 {
+  color: var(--ios-ink);
+  border-bottom: 1px solid var(--ios-line);
+  font-size: 1.48rem;
+  letter-spacing: -0.035em;
+}
+
+.markdown-body h2 {
+  color: var(--ios-blue-deep);
+  font-size: 1.12rem;
+  letter-spacing: -0.02em;
+}
+
+.markdown-body h3 { color: #3d4855; }
+
+.markdown-body table {
+  overflow: hidden;
+  border-radius: 13px;
+  box-shadow: 0 0 0 1px var(--ios-line);
+}
+
+.markdown-body th,
+.markdown-body td {
+  border: 0;
+  border-bottom: 1px solid var(--ios-line);
+  border-right: 1px solid var(--ios-line);
+}
+
+.markdown-body tr:last-child td { border-bottom: 0; }
+.markdown-body th:last-child,
+.markdown-body td:last-child { border-right: 0; }
+.markdown-body th { background: rgba(10,132,255,0.07); color: var(--ios-blue-deep); }
+.markdown-body tr:nth-child(even) { background: rgba(247,249,252,0.68); }
+
+.markdown-body blockquote {
+  border-left: 3px solid var(--ios-blue);
+  background: rgba(10,132,255,0.065);
+  border-radius: 0 13px 13px 0;
+  color: #4c5866;
+}
+
+.markdown-body strong,
+.markdown-body code { color: var(--ios-blue-deep); }
+.markdown-body code { background: rgba(10,132,255,0.08); border-radius: 6px; }
+
+/* Review: a focused, tactile card surface */
+.review-mode.active {
+  animation: iosContentIn 520ms var(--ios-spring) both;
+}
+
+.review-top-bar { padding-bottom: 18px; }
+
+.btn-exit-review {
+  padding: 8px 13px;
+  border: 1px solid var(--ios-line);
+  border-radius: 11px;
+  background: rgba(255,255,255,0.72);
+  color: var(--ios-blue-deep);
+  box-shadow: var(--ios-shadow-sm);
+  transition: transform 280ms var(--ios-spring), background 180ms ease;
+}
+
+.btn-exit-review:hover { background: #fff; transform: translateX(-2px); }
+
+.review-progress-text { color: var(--ios-secondary); font-weight: 620; }
+
+.review-progress-bar {
+  height: 5px;
+  border-radius: 10px;
+  background: rgba(118,118,128,0.12);
+}
+
+.review-progress-fill {
+  background: linear-gradient(90deg, #0a84ff, #54a9ff);
+  transition: width 520ms var(--ios-spring);
+}
+
+.flashcard-wrapper { max-width: 570px; }
+.flashcard { height: 360px; }
+
+.flashcard-inner {
+  transition: transform 720ms cubic-bezier(0.2, 0.82, 0.2, 1);
+}
+
+.flashcard-face {
+  padding: 38px;
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,0.88);
+  box-shadow: var(--ios-shadow-float), inset 0 0 0 0.5px var(--ios-line);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+}
+
+.flashcard-front {
+  background: linear-gradient(145deg, rgba(255,255,255,0.96), rgba(242,248,255,0.84));
+}
+
+.flashcard-back { background: rgba(255,255,255,0.92); }
+
+.fc-word {
+  color: var(--ios-ink);
+  font-size: 2.55rem;
+  letter-spacing: -0.045em;
+}
+
+.fc-type-badge {
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-weight: 620;
+}
+
+.fc-type-badge.word { background: rgba(48,184,117,0.11); color: #16814d; }
+.fc-type-badge.phrase { background: rgba(10,132,255,0.10); color: var(--ios-blue-deep); }
+.fc-flip-hint, .fc-phonetic { color: var(--ios-tertiary); }
+.fc-meaning { color: var(--ios-ink); letter-spacing: -0.025em; }
+.fc-tip { color: var(--ios-secondary); }
+
+.rating-area { max-width: 570px; padding-top: 24px; }
+.rating-label { color: var(--ios-tertiary); }
+.rating-btns { gap: 9px; }
+
+.rate-btn {
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgba(24,35,52,0.09), inset 0 1px 0 rgba(255,255,255,0.25);
+  transition: transform 300ms var(--ios-spring), box-shadow 200ms ease, filter 180ms ease;
+}
+
+.rate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(24,35,52,0.13), inset 0 1px 0 rgba(255,255,255,0.25);
+  filter: saturate(1.06);
+}
+
+.rate-again { background: var(--ios-red); }
+.rate-hard { background: var(--ios-orange); }
+.rate-good { background: #399d69; }
+.rate-easy { background: var(--ios-blue); }
+
+.review-done { animation: iosContentIn 520ms var(--ios-spring) both; }
+.review-done h3, .done-stat-num { color: var(--ios-ink); }
+.review-done p, .done-stat-label { color: var(--ios-secondary); }
+
+.btn-back-home {
+  border-radius: 13px;
+  background: var(--ios-blue);
+  box-shadow: 0 10px 24px rgba(10,132,255,0.24);
+  transition: transform 300ms var(--ios-spring), box-shadow 200ms ease;
+}
+
+/* Modal: transition visibility instead of abruptly switching display */
+.status-modal-overlay {
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  background: rgba(25, 32, 43, 0.25);
+  backdrop-filter: blur(14px) saturate(125%);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
+  transition: opacity 240ms ease, visibility 240ms step-end;
+}
+
+.status-modal-overlay.open {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 260ms ease, visibility 0ms step-start;
+}
+
+.status-modal {
+  width: min(92%, 460px);
+  max-width: 460px;
+  padding: 30px 28px 23px;
+  border: 1px solid rgba(255,255,255,0.90);
+  border-radius: 26px;
+  background: rgba(255,255,255,0.88);
+  box-shadow: var(--ios-shadow-float), inset 0 0 0 0.5px var(--ios-line);
+  backdrop-filter: blur(30px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  animation: none;
+  opacity: 0;
+  transform: translateY(16px) scale(0.94);
+  transition: opacity 240ms ease, transform 430ms var(--ios-spring);
+}
+
+.status-modal-overlay.open .status-modal {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.status-modal-close {
+  top: 13px;
+  right: 15px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(118,118,128,0.12);
+  color: var(--ios-secondary);
+  font-size: 1.05rem;
+  transition: transform 280ms var(--ios-spring), background 180ms ease;
+}
+
+.status-modal-close:hover { color: var(--ios-ink); background: rgba(118,118,128,0.18); transform: rotate(8deg); }
+.status-modal h3 { color: var(--ios-ink); letter-spacing: -0.025em; }
+.status-modal-row { color: #404a56; }
+.status-modal-row .dot { width: 9px; height: 9px; }
+.status-modal-note { color: var(--ios-secondary); border-color: var(--ios-line); }
+
+/* Keyboard access */
+button:focus-visible,
+input:focus-visible,
+.status-help-link:focus-visible {
+  outline: 3px solid rgba(10,132,255,0.32);
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  .sidebar { width: 292px; min-width: 292px; }
+  .main-body { padding-left: 26px; padding-right: 26px; }
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    left: 0;
+    width: min(88vw, 330px);
+    min-width: 0;
+    transform: translateX(-104%);
+    transition: transform 460ms var(--ios-spring);
+    box-shadow: 18px 0 60px rgba(22,34,52,0.20);
+  }
+
+  .sidebar.open { left: 0; transform: translateX(0); }
+
+  .sidebar-overlay {
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(20,27,38,0.24);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: opacity 260ms ease;
+  }
+
+  .sidebar-overlay.open { display: block; opacity: 1; pointer-events: auto; }
+
+  .menu-toggle { display: grid; }
+
+  .main-header {
+    min-height: 62px;
+    padding: 11px 14px;
+  }
+
+  .main-body { padding: 20px 14px 34px; }
+  .welcome { min-height: 310px; }
+  .welcome .icon { width: 74px; height: 74px; border-radius: 22px; font-size: 1.95rem; }
+  .welcome p { padding: 0 18px; font-size: 0.92rem; }
+  .mode-tabs { margin-bottom: 11px; }
+  .input-card { padding: 19px; border-radius: 19px; }
+  .input-row { gap: 10px; }
+  .markdown-body { padding: 22px 18px; border-radius: 20px; }
+  .flashcard { height: 300px; }
+  .flashcard-face { padding: 26px 20px; border-radius: 24px; }
+  .fc-word { font-size: 2rem; }
+  .rating-btns { gap: 6px; }
+  .rate-btn { border-radius: 12px; }
+}
+
+/* ===== Theme control ===== */
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.theme-control {
+  position: relative;
+  z-index: 60;
+}
+
+.theme-control > summary {
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 12px;
+  border-radius: 12px;
+  color: var(--ios-secondary);
+  background: rgba(255,255,255,0.72);
+  box-shadow: 0 5px 14px rgba(24,35,52,0.055), inset 0 1px 0 rgba(255,255,255,0.95);
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.72rem;
+  font-weight: 630;
+  transition: transform 280ms var(--ios-spring), background 180ms ease, box-shadow 200ms ease;
+}
+
+.theme-control > summary::-webkit-details-marker { display: none; }
+
+.theme-control > summary:hover {
+  color: var(--ios-ink);
+  background: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 9px 22px rgba(24,35,52,0.09);
+}
+
+.theme-current-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--ios-blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ios-blue) 18%, transparent);
+  transition: background 240ms ease, box-shadow 240ms ease;
+}
+
+.theme-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 244px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.92);
+  border-radius: 19px;
+  background: rgba(255,255,255,0.91);
+  box-shadow: 0 22px 60px rgba(22,34,52,0.17), inset 0 0 0 0.5px var(--ios-line);
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  transform-origin: top right;
+  animation: themePopoverIn 360ms var(--ios-spring) both;
+}
+
+@keyframes themePopoverIn {
+  from { opacity: 0; transform: translateY(-7px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.theme-popover-title {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 13px;
+}
+
+.theme-popover-title strong {
+  color: var(--ios-ink);
+  font-size: 0.80rem;
+  letter-spacing: -0.015em;
+}
+
+.theme-popover-title small {
+  color: var(--ios-tertiary);
+  font-size: 0.64rem;
+}
+
+.theme-presets {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
+}
+
+.theme-swatch {
+  width: 38px;
+  height: 38px;
+  justify-self: center;
+  border: 4px solid rgba(255,255,255,0.94);
+  border-radius: 50%;
+  background: var(--swatch);
+  box-shadow: 0 0 0 1px rgba(60,60,67,0.09), 0 5px 12px color-mix(in srgb, var(--swatch) 24%, transparent);
+  cursor: pointer;
+  transition: transform 300ms var(--ios-spring), box-shadow 200ms ease;
+}
+
+.theme-swatch:hover { transform: translateY(-2px) scale(1.06); }
+
+.theme-swatch.active {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 2px var(--ios-surface-solid), 0 0 0 4px var(--swatch), 0 8px 17px color-mix(in srgb, var(--swatch) 30%, transparent);
+}
+
+.theme-custom {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding: 0 4px 0 10px;
+  border-radius: 12px;
+  color: var(--ios-secondary);
+  background: rgba(118,118,128,0.065);
+  font-size: 0.69rem;
+  font-weight: 620;
+}
+
+.theme-custom input {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.theme-custom input::-webkit-color-swatch-wrapper { padding: 3px; }
+.theme-custom input::-webkit-color-swatch { border: 0; border-radius: 8px; }
+
+body {
+  background:
+    radial-gradient(circle at 84% 8%, color-mix(in srgb, var(--ios-blue) 12%, transparent), transparent 32%),
+    radial-gradient(circle at 72% 92%, rgba(48,184,117,0.08), transparent 28%),
+    linear-gradient(145deg, #f7f9fc 0%, #edf2f8 48%, #f6f8fb 100%);
+}
+
+.lookup-symbol,
+.fav-avatar {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--ios-blue) 72%, white), var(--ios-blue));
+  box-shadow: 0 7px 17px color-mix(in srgb, var(--ios-blue) 25%, transparent), inset 0 1px 0 rgba(255,255,255,0.34);
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--ios-blue) 84%, white), var(--ios-blue));
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--ios-blue) 25%, transparent), inset 0 1px 0 rgba(255,255,255,0.28);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--ios-blue) 31%, transparent), inset 0 1px 0 rgba(255,255,255,0.28);
+}
+
+.lookup-toggle,
+.fav-item.active,
+.fav-type.phrase,
+.fc-type-badge.phrase,
+.markdown-body th,
+.markdown-body code {
+  background: color-mix(in srgb, var(--ios-blue) 10%, transparent);
+}
+
+.lookup-toggle:hover { background: color-mix(in srgb, var(--ios-blue) 15%, transparent); }
+.markdown-body blockquote { background: color-mix(in srgb, var(--ios-blue) 7%, transparent); }
+.review-progress-fill { background: linear-gradient(90deg, var(--ios-blue-deep), var(--ios-blue)); }
+
+@media (max-width: 700px) {
+  .theme-control > summary { width: 38px; padding: 0; justify-content: center; }
+  .theme-label { display: none; }
+  .theme-popover { right: -48px; width: min(244px, calc(100vw - 28px)); }
+}
+
+/* ===== iOS Edition refinement: focus mode and compact lookup dock ===== */
+.lookup-shell {
+  width: min(100%, 900px);
+  max-width: 900px;
+  margin: 0 auto 24px;
+  border: 0;
+  border-radius: 24px;
+  background: rgba(249,251,254,0.84);
+  box-shadow: 0 18px 46px rgba(29,43,64,0.085);
+  backdrop-filter: blur(28px) saturate(145%);
+  -webkit-backdrop-filter: blur(28px) saturate(145%);
+  overflow: clip;
+  animation: iosCardIn 680ms 160ms var(--ios-spring) both;
+  transition: max-width 480ms var(--ios-spring), border-radius 420ms var(--ios-spring), box-shadow 260ms ease, background 220ms ease;
+}
+
+.lookup-toolbar {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 11px 9px 14px;
+}
+
+.lookup-heading {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 10px;
+}
+
+.lookup-symbol {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 11px;
+  color: #fff;
+  background: linear-gradient(160deg, #48a7ff 0%, #0a84ff 55%, #0876db 100%);
+  box-shadow: 0 7px 17px rgba(10,132,255,0.24), inset 0 1px 0 rgba(255,255,255,0.34);
+  font-size: 1.08rem;
+  font-weight: 650;
+}
+
+.lookup-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.22;
+}
+
+.lookup-copy strong {
+  color: var(--ios-ink);
+  font-size: 0.82rem;
+  font-weight: 680;
+  letter-spacing: -0.018em;
+}
+
+.lookup-copy small {
+  margin-top: 3px;
+  color: var(--ios-tertiary);
+  font-size: 0.66rem;
+  font-weight: 500;
+  transition: opacity 180ms ease, transform 280ms var(--ios-spring);
+}
+
+.lookup-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 72px;
+  height: 34px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 11px;
+  color: var(--ios-blue-deep);
+  background: rgba(10,132,255,0.09);
+  font-size: 0.70rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform 280ms var(--ios-spring), background 180ms ease, box-shadow 180ms ease;
+}
+
+.lookup-toggle:hover {
+  background: rgba(10,132,255,0.14);
+  box-shadow: inset 0 0 0 1px rgba(10,132,255,0.09);
+}
+
+.lookup-toggle:active { transform: scale(0.95); }
+
+.lookup-chevron {
+  display: inline-block;
+  font-size: 0.92rem;
+  line-height: 1;
+  transform: translateY(2px) rotate(0deg);
+  transition: transform 420ms var(--ios-spring);
+}
+
+.lookup-content {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  max-height: 430px;
+  padding: 0 14px 14px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: max-height 520ms var(--ios-spring), padding 420ms var(--ios-spring), opacity 220ms ease, transform 420ms var(--ios-spring);
+}
+
+.lookup-shell.collapsed {
+  max-width: 760px;
+  border-radius: 18px;
+  background: rgba(249,251,254,0.72);
+  box-shadow: 0 10px 28px rgba(29,43,64,0.065);
+}
+
+.lookup-shell.collapsed .lookup-content {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+}
+
+.lookup-shell.collapsed .lookup-chevron {
+  transform: translateY(-1px) rotate(180deg);
+}
+
+.lookup-shell.collapsed .lookup-copy small {
+  opacity: 0.72;
+  transform: translateX(2px);
+}
+
+.lookup-shell .mode-tabs {
+  max-width: none;
+  min-height: 48px;
+  margin: 0;
+  padding: 4px;
+  align-self: start;
+  border-radius: 14px;
+  background: rgba(118,118,128,0.105);
+}
+
+.lookup-shell .mode-tab {
+  padding: 10px 8px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+}
+
+.lookup-shell .input-card {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  animation: none;
+}
+
+.lookup-shell .input-row {
+  position: relative;
+  align-items: flex-end;
+  gap: 9px;
+  padding: 7px;
+  border: 0;
+  border-radius: 15px;
+  background: rgba(118,118,128,0.055);
+  box-shadow: none;
+  transition: border-color 180ms ease, box-shadow 220ms ease, background 180ms ease;
+}
+
+.lookup-shell .input-row:focus-within {
+  background: rgba(255,255,255,0.82);
+  box-shadow: 0 0 0 3px rgba(10,132,255,0.10), 0 7px 18px rgba(25,38,58,0.045);
+}
+
+.lookup-shell .input-row .input-group {
+  min-width: 0;
+  margin: 0;
+}
+
+.lookup-shell .query-field label {
+  margin: 0 0 2px 7px;
+  color: var(--ios-tertiary);
+  font-size: 0.61rem;
+  font-weight: 630;
+  letter-spacing: 0.025em;
+}
+
+.lookup-shell .query-field input {
+  padding: 7px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  box-shadow: none;
+  font-size: 0.90rem;
+  font-weight: 540;
+}
+
+.lookup-shell .query-field input:focus {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Keep focus feedback on the whole lookup field, not as a nested outline. */
+.lookup-shell .query-field input:focus-visible {
+  outline: none;
+  outline-offset: 0;
+}
+
+.lookup-shell .btn-primary {
+  min-width: 76px;
+  min-height: 43px;
+  padding: 0 18px;
+  border-radius: 12px;
+}
+
+.api-settings {
+  margin-top: 10px;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(118,118,128,0.045);
+  overflow: clip;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+
+.api-settings:hover {
+  background: rgba(118,118,128,0.07);
+}
+
+.api-settings summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 10px;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.api-settings summary::-webkit-details-marker { display: none; }
+
+.api-settings-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: 9px;
+  background: rgba(118,118,128,0.10);
+  font-size: 0.82rem;
+  transition: background 180ms ease, transform 320ms var(--ios-spring);
+}
+
+.api-settings.configured .api-settings-icon {
+  background: rgba(48,184,117,0.13);
+}
+
+.api-settings-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.18;
+}
+
+.api-settings-copy strong {
+  color: var(--ios-secondary);
+  font-size: 0.70rem;
+  font-weight: 650;
+}
+
+.api-settings-copy small {
+  margin-top: 3px;
+  color: var(--ios-tertiary);
+  font-size: 0.61rem;
+}
+
+.api-settings.configured .api-settings-copy small { color: #16814d; }
+
+.api-settings-chevron {
+  margin-left: auto;
+  color: var(--ios-tertiary);
+  font-size: 1.25rem;
+  line-height: 1;
+  transform: rotate(0deg);
+  transition: transform 420ms var(--ios-spring);
+}
+
+.api-settings[open] .api-settings-chevron { transform: rotate(90deg); }
+.api-settings[open] .api-settings-icon { transform: scale(1.04) rotate(-4deg); }
+
+.api-settings::details-content {
+  block-size: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: block-size 430ms var(--ios-spring), opacity 220ms ease, content-visibility 430ms allow-discrete;
+}
+
+.api-settings[open]::details-content {
+  block-size: auto;
+  opacity: 1;
+}
+
+.api-settings-body {
+  padding: 4px 11px 12px 49px;
+  border-top: 0;
+}
+
+.api-settings-body .input-group { margin: 10px 0 0; }
+.api-settings-body .input-group > label:first-child { margin-left: 2px; }
+.api-settings-body .input-group > input {
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 11px;
+  background: rgba(255,255,255,0.78);
+  box-shadow: none;
+}
+.api-settings-body .key-hint { font-size: 0.65rem; }
+.api-settings-body .key-save-option { font-size: 0.65rem !important; }
+
+.result-area.active { margin-top: 6px; }
+
+/* Stronger focus isolation for the status guide */
+.status-modal-overlay {
+  background: rgba(25, 32, 43, 0.25);
+  backdrop-filter: blur(30px) saturate(100%);
+  -webkit-backdrop-filter: blur(30px) saturate(100%);
+}
+
+.status-modal {
+  background: rgba(255,255,255,0.92);
+  border-color: rgba(255,255,255,0.90);
+  box-shadow: var(--ios-shadow-float), inset 0 0 0 0.5px rgba(60,60,67,0.09);
+}
+
+@media (max-width: 700px) {
+  .lookup-shell {
+    margin-bottom: 17px;
+    border-radius: 20px;
+  }
+
+  .lookup-toolbar { min-height: 56px; padding-left: 11px; }
+  .lookup-copy small { display: none; }
+
+  .lookup-content {
+    grid-template-columns: 1fr;
+    max-height: 560px;
+    padding: 0 10px 10px;
+    gap: 9px;
+  }
+
+  .lookup-shell .mode-tabs { width: 100%; margin: 0; }
+  .lookup-shell .input-row { flex-direction: row; gap: 7px; }
+  .lookup-shell .btn-primary { width: auto; min-width: 70px; padding: 0 14px; }
+  .api-settings-body { padding-left: 11px; }
+  .status-modal-overlay {
+    backdrop-filter: blur(24px) saturate(100%);
+    -webkit-backdrop-filter: blur(24px) saturate(100%);
+  }
+}
+
+/* Keep late component overrides synchronized with the selected accent. */
+.lookup-symbol,
+.fav-avatar {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--ios-blue) 72%, white), var(--ios-blue));
+  box-shadow: 0 7px 17px color-mix(in srgb, var(--ios-blue) 25%, transparent), inset 0 1px 0 rgba(255,255,255,0.34);
+}
+
+.lookup-toggle,
+.fav-item.active,
+.fav-type.phrase,
+.fc-type-badge.phrase,
+.markdown-body th,
+.markdown-body code {
+  background: color-mix(in srgb, var(--ios-blue) 10%, transparent);
+}
+
+.lookup-toggle:hover { background: color-mix(in srgb, var(--ios-blue) 15%, transparent); }
+.lookup-shell .input-row:focus-within {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ios-blue) 10%, transparent), 0 7px 18px rgba(25,38,58,0.045);
+}
+
+/* Type labels stay semantic instead of borrowing the active theme color. */
+.fav-type.word,
+.fc-type-badge.word {
+  color: #147a4b;
+  background: #e3f5ec;
+  box-shadow: inset 0 0 0 1px rgba(20,122,75,0.08);
+}
+
+.fav-type.phrase,
+.fc-type-badge.phrase {
+  color: #6842b8;
+  background: #f0e9ff;
+  box-shadow: inset 0 0 0 1px rgba(104,66,184,0.09);
+}
+
+/* Mobile legibility: protect text width, safe areas and long generated content. */
+@media (max-width: 700px) {
+  body,
+  .app {
+    height: 100dvh;
+    min-height: -webkit-fill-available;
+  }
+
+  .sidebar {
+    width: min(92vw, 360px);
+    height: 100dvh;
+    max-height: 100dvh;
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .sidebar-header {
+    padding-top: 20px;
+  }
+
+  .fav-list {
+    padding-bottom: calc(18px + env(safe-area-inset-bottom));
+  }
+
+  .fav-item {
+    position: relative;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
+    padding: 10px 38px 10px 8px;
+  }
+
+  .fav-item:hover {
+    transform: none;
+  }
+
+  .fav-avatar {
+    margin-top: 1px;
+  }
+
+  .fav-info,
+  .fav-word {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .fav-word {
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 6px;
+    row-gap: 3px;
+    line-height: 1.28;
+  }
+
+  .fav-word > span:first-child {
+    max-width: 100%;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .fav-type {
+    font-size: 0.62rem;
+  }
+
+  .fav-delete,
+  .fav-relearn {
+    position: absolute;
+    right: 7px;
+    opacity: 0.72;
+  }
+
+  .fav-delete {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .fav-relearn {
+    top: 7px;
+  }
+
+  .fav-relearn + .fav-delete {
+    top: auto;
+    bottom: 7px;
+    transform: none;
+  }
+
+  .main-header {
+    padding-top: calc(11px + env(safe-area-inset-top));
+  }
+
+  .main-header > div:first-child {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .main-header h2 {
+    max-width: none;
+    min-width: 0;
+  }
+
+  .header-controls {
+    flex-shrink: 0;
+  }
+
+  .main-body {
+    width: 100%;
+    padding: 18px 12px calc(30px + env(safe-area-inset-bottom));
+  }
+
+  .lookup-heading,
+  .lookup-copy,
+  .lookup-shell .input-row,
+  .lookup-shell .query-field {
+    min-width: 0;
+  }
+
+  .lookup-copy strong {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .lookup-shell .query-field input {
+    min-width: 0;
+  }
+
+  .api-settings summary {
+    padding-right: 10px;
+  }
+
+  .api-settings-copy strong,
+  .api-settings-copy small,
+  .api-settings-body .key-hint,
+  .api-settings-body .key-save-option {
+    overflow-wrap: anywhere;
+  }
+
+  .api-settings-body {
+    padding: 4px 10px 12px;
+  }
+
+  .api-settings-body .input-group > input {
+    min-width: 0;
+  }
+
+  .markdown-body {
+    max-width: 100%;
+    overflow: visible;
+    overflow-wrap: anywhere;
+  }
+
+  .table-scroll-shell {
+    margin: 14px -3px 20px;
+    padding-bottom: 23px;
+  }
+
+  .markdown-body .table-scroll {
+    position: relative;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    border-radius: 14px;
+    touch-action: pan-x pan-y;
+  }
+
+  .markdown-body .table-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .markdown-body .table-scroll table {
+    display: table;
+    width: max-content;
+    min-width: 100%;
+    max-width: none;
+    margin: 0;
+    overflow: visible;
+    white-space: normal;
+    table-layout: auto;
+  }
+
+  .markdown-body .table-scroll th,
+  .markdown-body .table-scroll td {
+    min-width: 154px;
+    max-width: 280px;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+
+  .markdown-body .table-scroll th:first-child,
+  .markdown-body .table-scroll td:first-child {
+    min-width: 104px;
+  }
+
+  .table-scroll-shell.is-scrollable::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    right: 0;
+    bottom: 24px;
+    width: 42px;
+    border-radius: 0 14px 14px 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.92));
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 180ms ease;
+  }
+
+  .table-scroll-shell.is-scrollable.at-end::after {
+    opacity: 0;
+  }
+
+  .table-scroll-shell.is-scrollable .table-swipe-hint {
+    position: absolute;
+    right: 5px;
+    bottom: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--ios-tertiary);
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+
+  .table-scroll-shell.user-scrolled .table-swipe-hint {
+    opacity: 0.48;
+  }
+
+  .table-swipe-arrow {
+    color: var(--ios-blue-deep);
+    font-size: 0.8rem;
+    animation: tableSwipeCue 1.8s var(--ios-spring) 2;
+  }
+
+  @keyframes tableSwipeCue {
+    0%, 100% { transform: translateX(0); }
+    45% { transform: translateX(-4px); }
+    70% { transform: translateX(3px); }
+  }
+}
+
+@media (max-width: 420px) {
+  .sidebar {
+    width: min(94vw, 360px);
+  }
+
+  .main-body {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .lookup-toolbar {
+    padding-right: 8px;
+  }
+
+  .lookup-shell .input-row {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .lookup-shell .btn-primary {
+    min-width: 64px;
+    padding: 0 12px;
+  }
+
+  .markdown-body {
+    padding: 19px 15px;
+  }
+}
+
+/* ===== Adaptive layout: desktop, split view, tablet and phone ===== */
+@media (max-width: 960px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    width: min(92vw, 340px);
+    min-width: 0;
+    height: 100dvh;
+    max-height: 100dvh;
+    transform: translateX(-104%);
+    transition: transform 460ms var(--ios-spring);
+    box-shadow: 18px 0 60px rgba(22,34,52,0.20);
+  }
+
+  .sidebar.open {
+    left: 0;
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay {
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(20,27,38,0.24);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: opacity 260ms ease;
+  }
+
+  .sidebar-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .menu-toggle {
+    display: grid;
+  }
+
+  .main-header > div:first-child {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .main-header h2 {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .header-controls,
+  .main-header .actions {
+    flex-shrink: 0;
+  }
+}
+
+/* The lookup dock responds to the usable workspace, not just window width. */
+@container main-workspace (max-width: 720px) {
+  .lookup-shell {
+    border-radius: 20px;
+  }
+
+  .lookup-content {
+    grid-template-columns: minmax(0, 1fr);
+    max-height: 620px;
+    padding: 0 10px 10px;
+    gap: 9px;
+  }
+
+  .lookup-shell .mode-tabs,
+  .lookup-shell .input-card {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .lookup-shell .input-row {
+    flex-direction: row;
+    align-items: flex-end;
+    min-width: 0;
+    gap: 7px;
+  }
+
+  .lookup-shell .query-field {
+    min-width: 0;
+  }
+
+  .lookup-shell .query-field label,
+  .api-settings-copy strong {
+    white-space: nowrap;
+  }
+
+  .api-settings-body {
+    padding-left: 11px;
+  }
+}
+
+@container main-workspace (max-width: 520px) {
+  .lookup-copy small {
+    display: none;
+  }
+
+  .lookup-toolbar {
+    gap: 8px;
+    padding-left: 11px;
+  }
+
+  .lookup-toggle {
+    min-width: 66px;
+  }
+}
+
+@container main-workspace (max-width: 330px) {
+  .lookup-shell .input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lookup-shell .btn-primary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .sidebar {
+    width: min(94vw, 360px);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .fav-delete,
+  .fav-relearn {
+    opacity: 0.72;
+  }
+
+  .fav-item:hover,
+  .btn:hover,
+  .btn-fav:hover,
+  .btn-copy:hover,
+  .menu-toggle:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1>Word Memory <a class="status-help-link" onclick="openStatusModal()" title="圆点颜色说明">?</a></h1>
+      <p>单词 &amp; 词组速记</p>
+    </div>
+    <div class="sidebar-search">
+      <input type="text" id="searchInput" placeholder="搜索收藏的单词或词组..." oninput="filterFavorites()">
+    </div>
+    <div class="sidebar-sort">
+      <button class="sort-btn active" data-sort="time" onclick="setSort('time')">🕑 时间顺序</button>
+      <button class="sort-btn" data-sort="alpha" onclick="setSort('alpha')">📑 字母顺序</button>
+    </div>
+    <div class="sidebar-data-actions">
+      <button class="sidebar-data-btn" onclick="exportFavoritesData()">⇩ 导出词库</button>
+      <button class="sidebar-data-btn" onclick="chooseImportFile()">⇧ 合并导入</button>
+      <input type="file" id="importFavoritesFile" accept="application/json,.json" onchange="importFavoritesData(event)" hidden="">
+    </div>
+    <div class="data-message" id="dataMessage"></div>
+    <div class="review-stats-bar" id="reviewStatsBar">
+      <div class="review-stats-left">
+        <span class="review-stats-label">今日复习</span>
+        <span class="review-stats-count" id="reviewStatsCount">待复习 <span class="due-num">0</span> · 已掌握 0</span>
+      </div>
+      <button class="btn-start-review" id="btnStartReview" onclick="startReview()" disabled="">暂无待复习</button>
+    </div>
+    <div class="fav-list" id="favList">
+      <div class="sidebar-empty" id="sidebarEmpty" style="display: flex;">
+        <div class="icon">📚</div>
+        <p>还没有收藏内容</p>
+        <p style="font-size:0.8em">生成记忆法后点击星标即可保存</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status Help Modal -->
+  <div class="status-modal-overlay" id="statusModalOverlay" onclick="closeStatusModal(event)">
+    <div class="status-modal" onclick="event.stopPropagation()">
+      <button class="status-modal-close" onclick="closeStatusModal()">×</button>
+      <h3>这些圆点表示什么？</h3>
+      <div class="status-modal-row"><span class="dot new"></span><span><b>新词</b>：已经收藏，还没有复习过。</span></div>
+      <div class="status-modal-row"><span class="dot learning"></span><span><b>学习中</b>：已经复习过，距离下次复习不到 7 天。</span></div>
+      <div class="status-modal-row"><span class="dot due"></span><span><b>待复习</b>：已经到了复习时间，会出现在待复习列表中。</span></div>
+      <div class="status-modal-row"><span class="dot reviewed"></span><span><b>已复习</b>：本轮已经完成，下次复习安排在 7 天以后。</span></div>
+      <div class="status-modal-row"><span class="dot mastered"></span><span><b>已掌握</b>：当前复习间隔已达到 21 天，不再自动加入复习列表。需要重新学习时，可以点击词条旁的“重新加入复习”。</span></div>
+      <div class="status-modal-note">
+        每次复习时选择“忘记、模糊、记得或简单”，系统都会据此调整下一次复习时间。圆点显示的是当前学习安排，不是刚刚选择的按钮。
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="main-header">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="menu-toggle" id="menuToggle" aria-label="打开词库" aria-controls="sidebar" aria-expanded="false" onclick="toggleSidebar()">☰</button>
+        <h2 id="mainTitle">输入单词开始</h2>
+      </div>
+      <div class="header-controls">
+        <details class="theme-control" id="themeControl">
+          <summary title="主题颜色">
+            <span class="theme-current-dot" aria-hidden="true"></span>
+            <span class="theme-label">主题</span>
+          </summary>
+          <div class="theme-popover">
+            <div class="theme-popover-title">
+              <strong>主题颜色</strong>
+              <small>只改变页面的强调色</small>
+            </div>
+            <div class="theme-presets" aria-label="预设主题颜色">
+              <button type="button" class="theme-swatch active" data-theme-color="#5aa9ff" style="--swatch:#5aa9ff" aria-label="柔蓝" title="柔蓝" onclick="setThemeColor('#5aa9ff')"></button>
+              <button type="button" class="theme-swatch" data-theme-color="#63c6a5" style="--swatch:#63c6a5" aria-label="薄荷绿" title="薄荷绿" onclick="setThemeColor('#63c6a5')"></button>
+              <button type="button" class="theme-swatch" data-theme-color="#a78bfa" style="--swatch:#a78bfa" aria-label="柔紫" title="柔紫" onclick="setThemeColor('#a78bfa')"></button>
+              <button type="button" class="theme-swatch" data-theme-color="#f08a9d" style="--swatch:#f08a9d" aria-label="浅玫瑰" title="浅玫瑰" onclick="setThemeColor('#f08a9d')"></button>
+            </div>
+            <label class="theme-custom">
+              <span>自定义</span>
+              <input type="color" id="customThemeColor" value="#5aa9ff" oninput="setThemeColor(this.value, false)" onchange="setThemeColor(this.value)">
+            </label>
+          </div>
+        </details>
+        <div class="actions" id="mainActions" style="display:none;">
+          <button class="btn-fav" id="favBtn" onclick="toggleFavorite()" title="收藏">☆</button>
+          <button class="btn-copy" onclick="copyMarkdown()" title="复制">📋</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-body" id="mainBody">
+      <!-- Welcome -->
+      <div class="welcome" id="welcomeArea">
+        <div class="icon">📖</div>
+        <p id="welcomeText">输入一个英语单词，AI 帮你生成过目不忘的记忆法</p>
+      </div>
+
+      <!-- Collapsible lookup dock -->
+      <section class="lookup-shell" id="lookupShell" aria-label="查词">
+        <div class="lookup-toolbar">
+          <div class="lookup-heading">
+            <span class="lookup-symbol" aria-hidden="true">⌕</span>
+            <span class="lookup-copy">
+              <strong>查词</strong>
+              <small>需要时展开，阅读时收起</small>
+            </span>
+          </div>
+          <button class="lookup-toggle" id="lookupToggle" type="button" aria-expanded="true" aria-controls="lookupContent" onclick="toggleLookupPanel()">
+            <span id="lookupToggleLabel">收起</span>
+            <span class="lookup-chevron" aria-hidden="true">⌃</span>
+          </button>
+        </div>
+
+        <div class="lookup-content" id="lookupContent">
+          <div class="mode-tabs" id="modeTabs">
+            <button class="mode-tab active" data-mode="word" onclick="switchMode('word')">📚 单词速记</button>
+            <button class="mode-tab" data-mode="phrase" onclick="switchMode('phrase')">📝 词组速记</button>
+          </div>
+
+          <div class="input-card" id="inputCard">
+            <div class="input-row">
+              <div class="input-group query-field">
+                <label id="inputLabel">输入单词</label>
+                <input type="text" id="wordInput" placeholder="例如：testimony" autofocus="">
+              </div>
+              <button class="btn btn-primary" id="generateBtn" onclick="generate()">查词</button>
+            </div>
+
+            <details class="api-settings" id="apiSettings" open="">
+              <summary>
+                <span class="api-settings-icon" aria-hidden="true">🔑</span>
+                <span class="api-settings-copy">
+                  <strong>DeepSeek API 设置</strong>
+                  <small id="apiSummaryState">尚未配置，点击填写</small>
+                </span>
+                <span class="api-settings-chevron" aria-hidden="true">›</span>
+              </summary>
+              <div class="api-settings-body">
+                <div class="input-group">
+                  <label for="apiKey">DeepSeek API Key</label>
+                  <input type="password" id="apiKey" placeholder="sk-xxxxxxxx">
+                  <div class="key-hint">从 <a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener noreferrer">platform.deepseek.com</a> 获取；Key 仅直接发送给 DeepSeek</div>
+                  <label class="key-save-option"><input type="checkbox" id="rememberKey"> 在此浏览器保存 Key（Base64 编码，不是加密）</label>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>正在生成记忆法，请稍候...</p>
+      </div>
+
+      <div class="result-area" id="resultArea">
+        <div class="markdown-body" id="markdownContent"></div>
+      </div>
+
+      <!-- Review Mode -->
+      <div class="review-mode" id="reviewMode">
+        <div class="review-top-bar">
+          <button class="btn-exit-review" onclick="exitReview()">← 返回</button>
+          <span class="review-progress-text" id="reviewProgressText">0 / 0</span>
+        </div>
+        <div class="review-progress-bar">
+          <div class="review-progress-fill" id="reviewProgressFill" style="width:0%"></div>
+        </div>
+
+        <div class="flashcard-wrapper" id="flashcardWrapper">
+          <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <div class="flashcard-inner" id="flashcardInner">
+              <div class="flashcard-face flashcard-front">
+                <div class="fc-word" id="fcWord"></div>
+                <div class="fc-type-badge" id="fcTypeBadge"></div>
+                <p class="fc-flip-hint">点击卡片翻转查看释义</p>
+              </div>
+              <div class="flashcard-face flashcard-back">
+                <div class="fc-phonetic" id="fcPhonetic"></div>
+                <div class="fc-meaning" id="fcMeaning"></div>
+                <div class="fc-tip" id="fcTip"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rating-area" id="ratingArea">
+          <div class="rating-label">你觉得记得多少？</div>
+          <div class="rating-btns" id="ratingBtns">
+            <button class="rate-btn rate-again" onclick="rateCard(1)" title="完全忘了，马上再复习">忘记</button>
+            <button class="rate-btn rate-hard" onclick="rateCard(3)" title="有印象但不确定，1天后复习">模糊</button>
+            <button class="rate-btn rate-good" onclick="rateCard(4)" title="能想起来，按正常间隔复习">记得</button>
+            <button class="rate-btn rate-easy" onclick="rateCard(5)" title="很轻松就记住了，加快复习间隔">简单</button>
+          </div>
+        </div>
+
+        <div class="review-done" id="reviewDone">
+          <div class="done-icon">🎉</div>
+          <h3 id="doneTitle">本轮复习完成！</h3>
+          <p id="doneDesc">继续保持，坚持每天复习效果更佳</p>
+          <div class="done-stats" id="doneStats"></div>
+          <button class="btn-back-home" onclick="exitReview()">返回首页</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== Markdown Parser ===== */
+function parseMd(md) {
+  let html = String(md || '');
+  // Models occasionally wrap the whole answer in a Markdown fence. Remove only
+  // the fence markers so the useful content is not discarded.
+  html = html.replace(/^\s*```(?:markdown|md)?\s*$/gim, '');
+  const lines = html.split('\n');
+  let result = [];
+  let inTable = false;
+  let inList = false;
+  let listType = '';
+
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+    const isUlItem = /^[\*\-]\s/.test(line);
+    const isOlItem = /^\d+\.\s/.test(line);
+
+    // A list must close before any non-list block, even when the model omits a
+    // blank line between the list and the next heading or paragraph.
+    if (inList && !isUlItem && !isOlItem) {
+      result.push(`</${listType}>`);
+      inList = false;
+      listType = '';
+    }
+
+    const tableCells = splitMarkdownTableRow(line);
+    if (tableCells) {
+      if (i + 1 < lines.length && isMarkdownTableSeparator(lines[i + 1])) {
+        if (!inTable) {
+          result.push('<div class="table-scroll-shell"><div class="table-scroll" role="region"><table>');
+          const headers = tableCells.map(c => `<th>${inlineFormat(c)}</th>`).join('');
+          result.push(`<thead><tr>${headers}</tr></thead><tbody>`);
+          inTable = true;
+          i++;
+          continue;
+        }
+      }
+      if (inTable) {
+        const cols = tableCells.map(c => `<td>${inlineFormat(c)}</td>`).join('');
+        result.push(`<tr>${cols}</tr>`);
+        continue;
+      }
+    } else if (inTable) {
+      result.push('</tbody></table></div><div class="table-swipe-hint" aria-hidden="true"><span class="table-swipe-arrow">&#8596;</span>左右滑动查看</div></div>');
+      inTable = false;
+    }
+
+    if (/^#{1,6}\s/.test(line)) {
+      const level = line.match(/^(#{1,6})/)[1].length;
+      const text = inlineFormat(line.replace(/^#{1,6}\s+/, ''));
+      result.push(`<h${level}>${text}</h${level}>`);
+      continue;
+    }
+
+    if (/^>\s?/.test(line)) {
+      const text = inlineFormat(line.replace(/^>\s?/, ''));
+      result.push(`<blockquote><p>${text}</p></blockquote>`);
+      continue;
+    }
+
+    if (/^---+$/.test(line.trim())) {
+      result.push('<hr>');
+      continue;
+    }
+
+    if (isUlItem) {
+      if (!inList || listType !== 'ul') {
+        if (inList) result.push(`</${listType}>`);
+        result.push('<ul>');
+        inList = true;
+        listType = 'ul';
+      }
+      result.push(`<li>${inlineFormat(line.replace(/^[\*\-]\s+/, ''))}</li>`);
+      continue;
+    }
+
+    if (isOlItem) {
+      if (!inList || listType !== 'ol') {
+        if (inList) result.push(`</${listType}>`);
+        result.push('<ol>');
+        inList = true;
+        listType = 'ol';
+      }
+      result.push(`<li>${inlineFormat(line.replace(/^\d+\.\s+/, ''))}</li>`);
+      continue;
+    }
+
+    if (line.trim() === '') continue;
+
+    result.push(`<p>${inlineFormat(line)}</p>`);
+  }
+
+  if (inTable) result.push('</tbody></table></div><div class="table-swipe-hint" aria-hidden="true"><span class="table-swipe-arrow">&#8596;</span>左右滑动查看</div></div>');
+  if (inList) result.push(`</${listType}>`);
+
+  return result.join('\n');
+}
+
+function splitMarkdownTableRow(line) {
+  let value = String(line || '').trim();
+  if (!value.includes('|')) return null;
+  if (value.startsWith('|')) value = value.slice(1);
+  if (value.endsWith('|')) value = value.slice(0, -1);
+  const cells = value.split('|').map(cell => cell.trim());
+  return cells.length >= 2 ? cells : null;
+}
+
+function isMarkdownTableSeparator(line) {
+  const cells = splitMarkdownTableRow(line);
+  return !!cells && cells.every(cell => /^:?-{3,}:?$/.test(cell));
+}
+
+function inlineFormat(text) {
+  text = text.replace(/&/g, '&amp;');
+  text = text.replace(/</g, '&lt;');
+  text = text.replace(/>/g, '&gt;');
+  text = text.replace(/"/g, '&quot;');
+  text = text.replace(/'/g, '&#39;');
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  text = text.replace(/`(.+?)`/g, '<code>$1</code>');
+  return text;
+}
+
+/* ===== DOM References ===== */
+const apiKeyInput = document.getElementById('apiKey');
+const rememberKeyInput = document.getElementById('rememberKey');
+const wordInput = document.getElementById('wordInput');
+const generateBtn = document.getElementById('generateBtn');
+const loadingEl = document.getElementById('loading');
+const resultArea = document.getElementById('resultArea');
+const markdownContent = document.getElementById('markdownContent');
+const mainTitle = document.getElementById('mainTitle');
+const mainActions = document.getElementById('mainActions');
+const favBtn = document.getElementById('favBtn');
+const errorMsg = document.getElementById('errorMsg');
+const welcomeArea = document.getElementById('welcomeArea');
+const favList = document.getElementById('favList');
+const sidebarEmpty = document.getElementById('sidebarEmpty');
+const searchInput = document.getElementById('searchInput');
+const importFavoritesFile = document.getElementById('importFavoritesFile');
+const dataMessage = document.getElementById('dataMessage');
+const lookupShell = document.getElementById('lookupShell');
+const lookupToggle = document.getElementById('lookupToggle');
+const lookupToggleLabel = document.getElementById('lookupToggleLabel');
+const apiSettings = document.getElementById('apiSettings');
+const apiSummaryState = document.getElementById('apiSummaryState');
+const themeControl = document.getElementById('themeControl');
+const customThemeColor = document.getElementById('customThemeColor');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const menuToggle = document.getElementById('menuToggle');
+
+function updateTableScrollState(root = markdownContent) {
+  root.querySelectorAll('.table-scroll').forEach(scroller => {
+    const shell = scroller.closest('.table-scroll-shell');
+    if (!shell) return;
+
+    const refresh = () => {
+      const overflow = scroller.scrollWidth > scroller.clientWidth + 2;
+      const atEnd = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 2;
+      shell.classList.toggle('is-scrollable', overflow);
+      shell.classList.toggle('at-end', !overflow || atEnd);
+      scroller.tabIndex = overflow ? 0 : -1;
+      scroller.setAttribute('aria-label', overflow ? '表格，可左右滑动查看完整内容' : '表格');
+    };
+
+    if (!scroller.dataset.scrollEnhanced) {
+      scroller.dataset.scrollEnhanced = 'true';
+      scroller.addEventListener('scroll', () => {
+        shell.classList.toggle('user-scrolled', scroller.scrollLeft > 4);
+        refresh();
+      }, { passive: true });
+    }
+
+    refresh();
+  });
+}
+
+function renderMarkdown(md) {
+  markdownContent.innerHTML = parseMd(md);
+  requestAnimationFrame(() => updateTableScrollState());
+}
+
+let tableResizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(tableResizeTimer);
+  tableResizeTimer = setTimeout(() => updateTableScrollState(), 120);
+});
+
+let lastMarkdown = '';
+let lastWord = '';
+let currentMode = 'word';
+let currentSort = 'time';
+const _srCache = {};
+
+const welcomeText = document.getElementById('welcomeText');
+const inputLabel = document.getElementById('inputLabel');
+
+function setLookupCollapsed(collapsed, focusInput = false) {
+  lookupShell.classList.toggle('collapsed', collapsed);
+  lookupToggle.setAttribute('aria-expanded', String(!collapsed));
+  lookupToggleLabel.textContent = collapsed ? '展开查词' : '收起';
+  if (!collapsed && focusInput) {
+    requestAnimationFrame(() => wordInput.focus({ preventScroll: true }));
+  }
+}
+
+function toggleLookupPanel() {
+  const willCollapse = !lookupShell.classList.contains('collapsed');
+  setLookupCollapsed(willCollapse, !willCollapse);
+}
+
+function updateApiSettingsState() {
+  const configured = !!apiKeyInput.value.trim();
+  apiSettings.classList.toggle('configured', configured);
+  apiSummaryState.textContent = configured ? '已配置，可以查词' : '尚未配置，点击填写';
+}
+
+function normalizeThemeColor(color) {
+  const value = String(color || '').trim().toLowerCase();
+  return /^#[0-9a-f]{6}$/.test(value) ? value : '#5aa9ff';
+}
+
+function getThemeRgb(color) {
+  const value = normalizeThemeColor(color).slice(1);
+  return [0, 2, 4].map(index => parseInt(value.slice(index, index + 2), 16));
+}
+
+function rgbToHex(rgb) {
+  return '#' + rgb.map(channel => Math.max(0, Math.min(255, channel)).toString(16).padStart(2, '0')).join('');
+}
+
+function setThemeColor(color, persist = true) {
+  const normalized = normalizeThemeColor(color);
+  const rgb = getThemeRgb(normalized);
+  const deep = rgbToHex(rgb.map(channel => Math.round(channel * 0.72)));
+  const root = document.documentElement;
+  root.style.setProperty('--ios-blue', normalized);
+  root.style.setProperty('--ios-blue-deep', deep);
+  root.style.setProperty('--ios-blue-rgb', rgb.join(', '));
+  customThemeColor.value = normalized;
+  document.querySelectorAll('.theme-swatch').forEach(button => {
+    button.classList.toggle('active', button.dataset.themeColor === normalized);
+  });
+  if (persist) {
+    try { localStorage.setItem('word_memory_theme_color', normalized); } catch {}
+    themeControl.open = false;
+  }
+}
+
+try {
+  setThemeColor(localStorage.getItem('word_memory_theme_color') || '#5aa9ff', false);
+} catch {
+  setThemeColor('#5aa9ff', false);
+}
+
+/* ===== Spaced Repetition (SM-2) ===== */
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+function defaultSR() {
+  return { interval: 0, easeFactor: 2.5, reps: 0, nextReview: 0, lastReview: 0, status: 'new' };
+}
+
+function migrateItem(item) {
+  if (!item || typeof item !== 'object' || typeof item.word !== 'string' || typeof item.markdown !== 'string') {
+    return null;
+  }
+  const migrated = { ...defaultSR(), ...item };
+  migrated.word = migrated.word.trim();
+  migrated.type = migrated.type === 'phrase' ? 'phrase' : 'word';
+  migrated.interval = Number.isFinite(Number(migrated.interval)) ? Math.max(0, Number(migrated.interval)) : 0;
+  migrated.easeFactor = Number.isFinite(Number(migrated.easeFactor)) ? Math.max(1.3, Number(migrated.easeFactor)) : 2.5;
+  migrated.reps = Number.isFinite(Number(migrated.reps)) ? Math.max(0, Math.floor(Number(migrated.reps))) : 0;
+  migrated.nextReview = Number.isFinite(Number(migrated.nextReview)) ? Number(migrated.nextReview) : 0;
+  migrated.lastReview = Number.isFinite(Number(migrated.lastReview)) ? Number(migrated.lastReview) : 0;
+  migrated.time = Number.isFinite(Number(migrated.time)) ? Number(migrated.time) : Date.now();
+  if (!migrated.word) return null;
+  return migrated;
+}
+
+function scheduleSM2(item, quality) {
+  let { interval, easeFactor, reps } = item;
+
+  if (quality < 3) {
+    reps = 0;
+    interval = quality === 1 ? 0 : 1;
+    easeFactor = Math.max(1.3, easeFactor - 0.2);
+  } else {
+    if (reps === 0) interval = 1;
+    else if (reps === 1) interval = 3;
+    else interval = Math.round(interval * easeFactor);
+    reps++;
+    easeFactor = Math.max(1.3, easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)));
+  }
+
+  const now = Date.now();
+  let status = 'learning';
+  if (interval >= 21) status = 'mastered';
+  else if (interval >= 1) status = 'reviewed';
+
+  return {
+    ...item,
+    interval,
+    easeFactor,
+    reps,
+    lastReview: now,
+    nextReview: now + interval * DAY_MS,
+    status
+  };
+}
+
+function getFavorites() {
+  try {
+    const favs = JSON.parse(localStorage.getItem('word_favorites') || '[]');
+    if (!Array.isArray(favs)) return [];
+    return favs.map(migrateItem).filter(Boolean);
+  } catch { return []; }
+}
+
+function saveFavorites(favs) {
+  try {
+    localStorage.setItem('word_favorites', JSON.stringify(favs));
+    return true;
+  } catch {
+    showError('收藏保存失败：浏览器存储不可用或空间不足');
+    return false;
+  }
+}
+
+function normalizeFavoriteType(type) {
+  return type === 'phrase' ? 'phrase' : 'word';
+}
+
+function favoriteMatches(item, word, type) {
+  return item.word.toLowerCase() === word.toLowerCase() && normalizeFavoriteType(item.type) === normalizeFavoriteType(type);
+}
+
+function favoriteCacheKey(word, type) {
+  return `${normalizeFavoriteType(type)}:${word.toLowerCase()}`;
+}
+
+function isFavorited(word, type = currentMode) {
+  return getFavorites().some(f => favoriteMatches(f, word, type));
+}
+
+function getDueItems() {
+  const now = Date.now();
+  return getFavorites().filter(f => f.nextReview <= now && f.status !== 'mastered');
+}
+
+function getReviewStats() {
+  const favs = getFavorites();
+  const now = Date.now();
+  const due = favs.filter(f => f.nextReview <= now && f.status !== 'mastered').length;
+  const mastered = favs.filter(f => f.status === 'mastered').length;
+  const learning = favs.filter(f => f.status === 'learning' || f.status === 'reviewed').length;
+  return { total: favs.length, due, mastered, learning };
+}
+
+/* ===== Review Mode State ===== */
+let reviewQueue = [];
+let reviewIndex = 0;
+let reviewRetryKeys = new Set();
+let reviewFlipped = false;
+let reviewStatsSession = { reviewed: 0, again: 0, hard: 0, good: 0, easy: 0 };
+
+function startReview() {
+  const due = getDueItems();
+  if (due.length === 0) return;
+
+  reviewQueue = due.slice(0, 30);
+  reviewIndex = 0;
+  reviewRetryKeys = new Set();
+  reviewFlipped = false;
+  reviewStatsSession = { reviewed: 0, again: 0, hard: 0, good: 0, easy: 0 };
+
+  hideNormalUI();
+  document.getElementById('reviewMode').classList.add('active');
+  document.getElementById('reviewDone').classList.remove('active');
+  document.getElementById('flashcardWrapper').style.display = 'flex';
+  document.getElementById('ratingArea').style.display = '';
+  renderReviewCard();
+  closeSidebar();
+}
+
+function exitReview() {
+  document.getElementById('reviewMode').classList.remove('active');
+  showNormalUI();
+  updateReviewStatsBar();
+  renderFavorites(searchInput.value);
+}
+
+function hideNormalUI() {
+  welcomeArea.style.display = 'none';
+  lookupShell.style.display = 'none';
+  document.getElementById('modeTabs').style.display = 'none';
+  document.getElementById('inputCard').style.display = 'none';
+  resultArea.classList.remove('active');
+  loadingEl.classList.remove('active');
+  errorMsg.classList.remove('active');
+  mainActions.style.display = 'none';
+}
+
+function showNormalUI() {
+  lookupShell.style.display = '';
+  document.getElementById('modeTabs').style.display = '';
+  document.getElementById('inputCard').style.display = '';
+  if (lastMarkdown) {
+    resultArea.classList.add('active');
+    mainActions.style.display = 'flex';
+    setLookupCollapsed(true);
+  } else {
+    welcomeArea.style.display = 'flex';
+    setLookupCollapsed(false);
+  }
+}
+
+function renderReviewCard() {
+  if (reviewIndex >= reviewQueue.length) {
+    showReviewDone();
+    return;
+  }
+
+  const item = reviewQueue[reviewIndex];
+  reviewFlipped = false;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('ratingBtns').classList.remove('active');
+
+  document.getElementById('fcWord').textContent = item.word;
+  const badge = document.getElementById('fcTypeBadge');
+  badge.textContent = item.type === 'phrase' ? '词组' : '单词';
+  badge.className = 'fc-type-badge ' + (item.type === 'phrase' ? 'phrase' : 'word');
+
+  const info = extractCardInfo(item.markdown);
+  document.getElementById('fcPhonetic').textContent = info.phonetic;
+  document.getElementById('fcMeaning').textContent = info.meaning;
+  document.getElementById('fcTip').textContent = info.tip;
+
+  const total = reviewQueue.length;
+  const displayIndex = Math.min(reviewIndex + 1, total);
+  document.getElementById('reviewProgressText').textContent = `${displayIndex} / ${total}`;
+  document.getElementById('reviewProgressFill').style.width = `${Math.min(100, (reviewIndex / total) * 100)}%`;
+
+  mainTitle.textContent = '复习模式';
+}
+
+function flipCard() {
+  if (reviewFlipped) return;
+  reviewFlipped = true;
+  document.getElementById('flashcard').classList.add('flipped');
+  document.getElementById('ratingBtns').classList.add('active');
+}
+
+function rateCard(quality) {
+  if (!reviewFlipped) return;
+
+  const item = reviewQueue[reviewIndex];
+  const favs = getFavorites();
+  const idx = favs.findIndex(f => favoriteMatches(f, item.word, item.type));
+  if (idx > -1) {
+    favs[idx] = scheduleSM2(favs[idx], quality);
+    if (!saveFavorites(favs)) return;
+    const retryKey = favoriteCacheKey(item.word, item.type);
+    // Each card can be appended at most once per session. If it is forgotten
+    // again, it remains due for the next session instead of growing forever.
+    if (quality <= 1 && !reviewRetryKeys.has(retryKey)) {
+      reviewRetryKeys.add(retryKey);
+      reviewQueue.push({ ...favs[idx] });
+    }
+  }
+
+  reviewStatsSession.reviewed++;
+  if (quality === 1) reviewStatsSession.again++;
+  else if (quality === 3) reviewStatsSession.hard++;
+  else if (quality === 4) reviewStatsSession.good++;
+  else reviewStatsSession.easy++;
+
+  reviewIndex++;
+  renderReviewCard();
+
+  // Refresh the sidebar to show updated status dots
+  renderFavorites(document.getElementById('searchInput').value);
+}
+
+function showReviewDone() {
+  const s = reviewStatsSession;
+  document.getElementById('flashcardWrapper').style.display = 'none';
+  document.getElementById('ratingArea').style.display = 'none';
+  document.getElementById('reviewProgressFill').style.width = '100%';
+  document.getElementById('reviewProgressText').textContent = `${s.reviewed} / ${s.reviewed}`;
+
+  document.getElementById('doneTitle').textContent =
+    s.reviewed > 0 ? '本轮复习完成！' : '没有待复习的内容';
+  document.getElementById('doneDesc').textContent =
+    s.reviewed > 0 ? '继续保持，坚持每天复习效果更佳' : '去收藏一些单词或词组开始学习吧';
+
+  const statsEl = document.getElementById('doneStats');
+  statsEl.innerHTML = '';
+  if (s.reviewed > 0) {
+    const items = [
+      { num: s.reviewed, label: '总复习' },
+      { num: s.again, label: '忘记' },
+      { num: s.hard, label: '模糊' },
+      { num: s.good, label: '记得' },
+      { num: s.easy, label: '简单' }
+    ];
+    items.forEach(it => {
+      const div = document.createElement('div');
+      div.className = 'done-stat';
+      div.innerHTML = `<div class="done-stat-num">${it.num}</div><div class="done-stat-label">${it.label}</div>`;
+      statsEl.appendChild(div);
+    });
+  }
+
+  document.getElementById('reviewDone').classList.add('active');
+}
+
+function cleanMarkdownText(value) {
+  return String(value || '')
+    .replace(/<br\s*\/?>/gi, ' / ')
+    .replace(/\\\|/g, '|')
+    .replace(/\*\*|__|`/g, '')
+    .trim();
+}
+
+function normalizeHeaderName(value) {
+  return cleanMarkdownText(value).replace(/\s+/g, '').toLowerCase();
+}
+
+function extractCardInfo(markdown) {
+  const info = { phonetic: '', meaning: '', tip: '' };
+  if (!markdown) return info;
+
+  const lines = String(markdown).split('\n');
+  const phoneticNames = ['音标', 'phonetic', 'pronunciation'];
+  const meaningNames = ['中文含义', '中文释义', '含义', '释义', 'meaning'];
+  const identityNames = ['单词', '词组', 'word', 'phrase'];
+  let currentSection = '';
+  let bestTable = null;
+
+  // Score every real Markdown table, preferring the one under “单词信息” or
+  // “词组信息”. This prevents later vocabulary/collocation tables from being
+  // mistaken for the flashcard's primary definition.
+  for (let i = 0; i < lines.length - 1; i++) {
+    const headingMatch = lines[i].trim().match(/^#{1,6}\s+(.+)$/);
+    if (headingMatch) currentSection = normalizeHeaderName(headingMatch[1]);
+
+    const headerCells = splitMarkdownTableRow(lines[i]);
+    if (!headerCells || !isMarkdownTableSeparator(lines[i + 1])) continue;
+
+    const normalizedHeaders = headerCells.map(normalizeHeaderName);
+    const phoneticIndex = normalizedHeaders.findIndex(name => phoneticNames.includes(name));
+    const meaningIndex = normalizedHeaders.findIndex(name => meaningNames.includes(name));
+    const identityIndex = normalizedHeaders.findIndex(name => identityNames.includes(name));
+    if (phoneticIndex < 0 && meaningIndex < 0) continue;
+
+    let score = 0;
+    if (currentSection.includes('单词信息') || currentSection.includes('词组信息')) score += 100;
+    if (identityIndex >= 0) score += 10;
+    if (phoneticIndex >= 0) score += 5;
+    if (meaningIndex >= 0) score += 5;
+    if (!bestTable || score > bestTable.score) {
+      bestTable = { headerCells, phoneticIndex, meaningIndex, dataStart: i + 2, score };
+    }
+  }
+
+  if (bestTable) {
+    for (let i = bestTable.dataStart; i < lines.length && i < bestTable.dataStart + 6; i++) {
+      if (/^#{1,6}\s+/.test(lines[i].trim())) break;
+      const cells = splitMarkdownTableRow(lines[i]);
+      if (!cells || isMarkdownTableSeparator(lines[i])) continue;
+      if (bestTable.phoneticIndex >= 0 && bestTable.phoneticIndex < cells.length) {
+        info.phonetic = cleanMarkdownText(cells[bestTable.phoneticIndex]);
+      }
+      if (bestTable.meaningIndex >= 0 && bestTable.meaningIndex < cells.length) {
+        info.meaning = cleanMarkdownText(cells[bestTable.meaningIndex]);
+      }
+      if (info.phonetic || info.meaning) break;
+    }
+  }
+
+  // Graceful fallback for manually edited or older saved content.
+  if (!info.phonetic) {
+    const match = String(markdown).match(/(?:音标|phonetic|pronunciation)\s*[:：]\s*([^\n|]+)/i);
+    if (match) info.phonetic = cleanMarkdownText(match[1]);
+  }
+  if (!info.meaning) {
+    const match = String(markdown).match(/(?:中文含义|中文释义|含义|释义|meaning)\s*[:：]\s*([^\n|]+)/i);
+    if (match) info.meaning = cleanMarkdownText(match[1]);
+  }
+
+  const memorySection = String(markdown).match(/(?:^|\n)##\s*(?:拆分巧记|拆分速记|记忆技巧)[^\n]*\n([\s\S]*?)(?=\n##\s|$)/i);
+  const sectionBold = memorySection?.[1]?.match(/\*\*(.{6,160}?)\*\*/);
+  if (sectionBold) {
+    info.tip = cleanMarkdownText(sectionBold[1]);
+  } else {
+    const boldMatches = [...String(markdown).matchAll(/\*\*(.{10,160}?)\*\*/g)]
+      .map(match => match[1])
+      .filter(value => !value.includes('|'));
+    if (boldMatches.length) info.tip = cleanMarkdownText(boldMatches[boldMatches.length - 1]);
+  }
+
+  return info;
+}
+
+function updateReviewStatsBar() {
+  const stats = getReviewStats();
+  const countEl = document.getElementById('reviewStatsCount');
+  countEl.innerHTML = `待复习 <span class="due-num">${stats.due}</span> · 已掌握 ${stats.mastered}`;
+
+  const btn = document.getElementById('btnStartReview');
+  btn.disabled = stats.due === 0;
+  btn.textContent = stats.due > 0 ? `开始复习 (${stats.due})` : '暂无待复习';
+}
+
+/* ===== Favorites Import / Export ===== */
+let dataMessageTimer = 0;
+
+function showDataMessage(message, type = 'success') {
+  clearTimeout(dataMessageTimer);
+  dataMessage.textContent = message;
+  dataMessage.className = `data-message active ${type}`;
+  dataMessageTimer = setTimeout(() => {
+    dataMessage.className = 'data-message';
+  }, 8000);
+}
+
+function chooseImportFile() {
+  importFavoritesFile.value = '';
+  importFavoritesFile.click();
+}
+
+function mergeFavoriteCollections(existing, incoming) {
+  const current = Array.isArray(existing) ? existing.map(migrateItem).filter(Boolean) : [];
+  const source = Array.isArray(incoming) ? incoming : [];
+  const knownKeys = new Set(current.map(item => favoriteCacheKey(item.word, item.type)));
+  const additions = [];
+  let skipped = 0;
+  let invalid = 0;
+
+  source.forEach(rawItem => {
+    const item = migrateItem(rawItem);
+    if (!item) {
+      invalid++;
+      return;
+    }
+    const key = favoriteCacheKey(item.word, item.type);
+    if (knownKeys.has(key)) {
+      skipped++;
+      return;
+    }
+    knownKeys.add(key);
+    additions.push(item);
+  });
+
+  return { favorites: [...additions, ...current], added: additions.length, skipped, invalid };
+}
+
+function exportFavoritesData() {
+  const favorites = getFavorites();
+  if (!favorites.length) {
+    showDataMessage('当前没有可导出的收藏内容', 'error');
+    return;
+  }
+
+  const payload = {
+    format: 'word-memory-favorites',
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    count: favorites.length,
+    favorites
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = `word-memory-favorites-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showDataMessage(`已导出 ${favorites.length} 条收藏，不包含 API Key`);
+}
+
+async function importFavoritesData(event) {
+  const file = event?.target?.files?.[0];
+  if (!file) return;
+
+  try {
+    if (file.size > 10 * 1024 * 1024) throw new Error('文件过大，请选择 10 MB 以内的词库文件');
+    const payload = JSON.parse(await file.text());
+    const incoming = Array.isArray(payload) ? payload : payload?.favorites;
+    if (!Array.isArray(incoming)) throw new Error('文件格式不正确：没有找到收藏数据');
+    if (incoming.length > 20000) throw new Error('词条数量超过 20000 条，已停止导入');
+
+    const result = mergeFavoriteCollections(getFavorites(), incoming);
+    if (!result.added) {
+      showDataMessage(`没有新增词条；跳过重复 ${result.skipped} 条、无效 ${result.invalid} 条`, 'error');
+      return;
+    }
+    if (!saveFavorites(result.favorites)) return;
+    renderFavorites(searchInput.value);
+    updateReviewStatsBar();
+    updateFavBtn();
+    showDataMessage(`导入完成：新增 ${result.added} 条，保留并跳过重复 ${result.skipped} 条，无效 ${result.invalid} 条`);
+  } catch (error) {
+    showDataMessage(error.message || '导入失败，请检查文件格式', 'error');
+  } finally {
+    importFavoritesFile.value = '';
+  }
+}
+
+/* ===== Favorites CRUD ===== */
+function toggleFavorite() {
+  if (!lastWord || !lastMarkdown) return;
+  let favs = getFavorites();
+  const idx = favs.findIndex(f => favoriteMatches(f, lastWord, currentMode));
+  let removed = null;
+  if (idx > -1) {
+    if (favs[idx].markdown === lastMarkdown) {
+      removed = favs[idx];
+      favs.splice(idx, 1);
+    } else {
+      // Regenerating an existing entry updates its content without discarding
+      // spaced-repetition progress.
+      favs[idx] = { ...favs[idx], markdown: lastMarkdown, time: Date.now(), type: currentMode };
+    }
+  } else {
+    const key = favoriteCacheKey(lastWord, currentMode);
+    const sr = _srCache[key] || defaultSR();
+    favs.unshift({
+      word: lastWord,
+      markdown: lastMarkdown,
+      time: Date.now(),
+      type: currentMode,
+      ...sr
+    });
+  }
+  if (!saveFavorites(favs)) return;
+  if (removed) {
+    const key = favoriteCacheKey(removed.word, removed.type);
+    _srCache[key] = { interval: removed.interval, easeFactor: removed.easeFactor, reps: removed.reps, nextReview: removed.nextReview, lastReview: removed.lastReview, status: removed.status };
+  } else {
+    delete _srCache[favoriteCacheKey(lastWord, currentMode)];
+  }
+  updateFavBtn();
+  renderFavorites(searchInput.value);
+  updateReviewStatsBar();
+}
+
+function updateFavBtn() {
+  const existing = lastWord ? getFavorites().find(f => favoriteMatches(f, lastWord, currentMode)) : null;
+  const exactMatch = !!existing && existing.markdown === lastMarkdown;
+  if (exactMatch) {
+    favBtn.textContent = '\u2B50';
+    favBtn.classList.add('saved');
+    favBtn.title = '取消收藏';
+  } else {
+    favBtn.textContent = '\u2606';
+    favBtn.classList.remove('saved');
+    favBtn.title = existing ? '更新收藏内容' : '收藏';
+  }
+}
+
+function deleteFavorite(word, type, e) {
+  e.stopPropagation();
+  const favs = getFavorites();
+  const idx = favs.findIndex(f => favoriteMatches(f, word, type));
+  if (idx < 0) return;
+  const removed = favs[idx];
+  const remaining = favs.filter((_, itemIndex) => itemIndex !== idx);
+  if (!saveFavorites(remaining)) return;
+  _srCache[favoriteCacheKey(removed.word, removed.type)] = { interval: removed.interval, easeFactor: removed.easeFactor, reps: removed.reps, nextReview: removed.nextReview, lastReview: removed.lastReview, status: removed.status };
+  if (lastWord && favoriteMatches(removed, lastWord, currentMode)) updateFavBtn();
+  renderFavorites(searchInput.value);
+  updateReviewStatsBar();
+}
+
+function showFavorite(word, type) {
+  const fav = getFavorites().find(f => favoriteMatches(f, word, type));
+  if (!fav) return;
+  lastWord = fav.word;
+  lastMarkdown = fav.markdown;
+  applyModeUI(fav.type);
+  wordInput.value = fav.word;
+  mainTitle.textContent = `${currentMode === 'word' ? '单词' : '词组'}：${fav.word}`;
+  renderMarkdown(fav.markdown);
+  resultArea.classList.add('active');
+  welcomeArea.style.display = 'none';
+  mainActions.style.display = 'flex';
+  setLookupCollapsed(true);
+  updateFavBtn();
+  closeSidebar();
+}
+
+function formatTime(ts) {
+  const d = new Date(ts);
+  const now = new Date();
+  if (d.toDateString() === now.toDateString()) {
+    return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+  }
+  return (d.getMonth()+1) + '/' + d.getDate();
+}
+
+function getStatusClass(item) {
+  if (item.status === 'mastered') return 'mastered';
+  if (item.nextReview <= Date.now()) {
+    return item.lastReview > 0 ? 'due' : 'new';
+  }
+  if (item.lastReview > 0) {
+    const sevenDays = 7 * 24 * 60 * 60 * 1000;
+    const nextInterval = item.nextReview - Date.now();
+    return nextInterval < sevenDays ? 'learning' : 'reviewed';
+  }
+  return 'new';
+}
+
+function renderFavorites(filter) {
+  let favs = getFavorites();
+  const keyword = (filter || '').toLowerCase();
+  const filtered = keyword ? favs.filter(f => f.word.toLowerCase().includes(keyword)) : favs;
+
+  if (currentSort === 'alpha') {
+    filtered.sort((a, b) => a.word.localeCompare(b.word, 'en', { sensitivity: 'base' }));
+  } else {
+    filtered.sort((a, b) => b.time - a.time);
+  }
+
+  if (filtered.length === 0) {
+    sidebarEmpty.style.display = 'flex';
+    sidebarEmpty.querySelector('.icon').textContent = favs.length === 0 ? '\uD83D\uDCDA' : '\uD83D\uDD0D';
+    sidebarEmpty.querySelectorAll('p')[0].textContent = favs.length === 0 ? '还没有收藏内容' : '没有找到匹配的内容';
+    sidebarEmpty.querySelectorAll('p')[1].textContent = favs.length === 0 ? '生成记忆法后点击星标即可保存' : '试试其他关键词';
+    favList.querySelectorAll('.fav-item').forEach(el => el.remove());
+    return;
+  }
+
+  sidebarEmpty.style.display = 'none';
+  favList.querySelectorAll('.fav-item').forEach(el => el.remove());
+
+  filtered.forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'fav-item' + (lastWord && favoriteMatches(f, lastWord, currentMode) ? ' active' : '');
+    div.onclick = () => showFavorite(f.word, f.type);
+
+    const statusDot = document.createElement('div');
+    const statusClass = getStatusClass(f);
+    statusDot.className = 'fav-status-dot ' + statusClass;
+    statusDot.title = { new: '新词', learning: '学习中', due: '待复习', reviewed: '已复习', mastered: '已掌握' }[statusClass];
+    div.appendChild(statusDot);
+
+    const avatar = document.createElement('div');
+    avatar.className = 'fav-avatar';
+    avatar.textContent = f.word.charAt(0).toUpperCase();
+
+    const info = document.createElement('div');
+    info.className = 'fav-info';
+    const wordLine = document.createElement('div');
+    wordLine.className = 'fav-word';
+    const wordText = document.createElement('span');
+    wordText.textContent = f.word;
+    const typeSpan = document.createElement('span');
+    typeSpan.className = 'fav-type ' + (f.type === 'phrase' ? 'phrase' : 'word');
+    typeSpan.textContent = f.type === 'phrase' ? '词组' : '单词';
+    wordLine.appendChild(wordText);
+    wordLine.appendChild(typeSpan);
+    const timeDiv = document.createElement('div');
+    timeDiv.className = 'fav-time';
+    timeDiv.textContent = formatTime(f.time);
+    info.appendChild(wordLine);
+    info.appendChild(timeDiv);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'fav-delete';
+    delBtn.title = '取消收藏';
+    delBtn.textContent = '\u2715';
+    delBtn.addEventListener('click', (e) => deleteFavorite(f.word, f.type, e));
+
+    div.appendChild(avatar);
+    div.appendChild(info);
+    if (f.status === 'mastered') {
+      const reBtn = document.createElement('button');
+      reBtn.className = 'fav-relearn';
+      reBtn.title = '重新加入复习';
+      reBtn.textContent = '\u21BB';
+      reBtn.addEventListener('click', (e) => relearnWord(f.word, f.type, e));
+      div.appendChild(reBtn);
+    }
+    div.appendChild(delBtn);
+    favList.appendChild(div);
+  });
+}
+
+function filterFavorites() {
+  renderFavorites(searchInput.value);
+}
+
+function setSort(sort) {
+  currentSort = sort;
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === sort));
+  renderFavorites(searchInput.value);
+}
+
+function relearnWord(word, type, e) {
+  e.stopPropagation();
+  const favs = getFavorites();
+  const idx = favs.findIndex(f => favoriteMatches(f, word, type));
+  if (idx > -1) {
+    favs[idx] = { ...favs[idx], ...defaultSR(), status: 'new', nextReview: Date.now() };
+    if (!saveFavorites(favs)) return;
+    renderFavorites(searchInput.value);
+    updateReviewStatsBar();
+  }
+}
+
+function toggleSidebar() {
+  const open = sidebar.classList.toggle('open');
+  sidebarOverlay.classList.toggle('open', open);
+  menuToggle.setAttribute('aria-expanded', String(open));
+  menuToggle.setAttribute('aria-label', open ? '关闭词库' : '打开词库');
+}
+
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  sidebarOverlay.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  menuToggle.setAttribute('aria-label', '打开词库');
+}
+
+const drawerLayoutQuery = window.matchMedia('(max-width: 960px)');
+drawerLayoutQuery.addEventListener?.('change', event => {
+  if (!event.matches) closeSidebar();
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && sidebar.classList.contains('open')) closeSidebar();
+});
+
+function openStatusModal() {
+  document.getElementById('statusModalOverlay').classList.add('open');
+}
+
+function closeStatusModal(e) {
+  if (e && e.target !== document.getElementById('statusModalOverlay')) return;
+  document.getElementById('statusModalOverlay').classList.remove('open');
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeStatusModal();
+});
+
+/* ===== Init ===== */
+renderFavorites();
+updateReviewStatsBar();
+
+function persistApiKeyPreference() {
+  try {
+    if (rememberKeyInput.checked && apiKeyInput.value.trim()) {
+      localStorage.setItem('deepseek_api_key', 'v1:' + btoa(apiKeyInput.value.trim()));
+    } else {
+      localStorage.removeItem('deepseek_api_key');
+    }
+    return true;
+  } catch {
+    showError('无法保存 API Key，请检查浏览器存储权限');
+    return false;
+  }
+}
+
+try {
+  const savedKey = localStorage.getItem('deepseek_api_key');
+  if (savedKey) {
+    apiKeyInput.value = savedKey.startsWith('v1:') ? atob(savedKey.slice(3)) : savedKey;
+    rememberKeyInput.checked = true;
+    apiSettings.open = false;
+  }
+} catch {
+  rememberKeyInput.checked = false;
+  showError('已忽略无法读取的 API Key，请重新输入');
+}
+
+updateApiSettingsState();
+apiKeyInput.addEventListener('input', updateApiSettingsState);
+apiKeyInput.addEventListener('change', persistApiKeyPreference);
+apiKeyInput.addEventListener('change', updateApiSettingsState);
+rememberKeyInput.addEventListener('change', persistApiKeyPreference);
+
+wordInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') generate();
+});
+
+function showError(msg) {
+  errorMsg.textContent = msg;
+  errorMsg.classList.add('active');
+  setTimeout(() => errorMsg.classList.remove('active'), 5000);
+}
+
+/* ===== Mode Switch ===== */
+function applyModeUI(mode) {
+  currentMode = normalizeFavoriteType(mode);
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === currentMode));
+  if (currentMode === 'word') {
+    inputLabel.textContent = '输入单词';
+    wordInput.placeholder = '例如：testimony';
+    welcomeText.textContent = '输入一个英语单词，AI 帮你生成过目不忘的记忆法';
+  } else {
+    inputLabel.textContent = '输入词组';
+    wordInput.placeholder = '例如：break the ice';
+    welcomeText.textContent = '输入一个英语词组/短语，AI 帮你生成快速记忆法';
+  }
+}
+
+function resetGeneratedResult() {
+  lastWord = '';
+  lastMarkdown = '';
+  mainTitle.textContent = currentMode === 'word' ? '输入单词开始' : '输入词组开始';
+  markdownContent.textContent = '';
+  resultArea.classList.remove('active');
+  mainActions.style.display = 'none';
+  welcomeArea.style.display = 'flex';
+  setLookupCollapsed(false);
+  errorMsg.classList.remove('active');
+  updateFavBtn();
+  renderFavorites(searchInput.value);
+}
+
+function switchMode(mode) {
+  if (generateBtn.disabled) return;
+  applyModeUI(mode);
+  resetGeneratedResult();
+  wordInput.value = '';
+  wordInput.focus();
+}
+
+/* ===== Prompts ===== */
+const WORD_PROMPT = `你是一个英语单词记忆法大师。用户会给你一个英语单词，你需要生成一份详细的、帮助记忆的 Markdown 文档。
+
+请严格按照以下格式输出（用 Markdown 语法）：
+
+# 巧记单词：[单词]
+
+## 单词信息
+| 单词 | 音标 | 词性 | 中文含义 |
+| --- | --- | --- | --- |
+| [单词] | [音标] | [词性] | [最常用的中文含义] |
+
+---
+
+## 拆分巧记
+
+### 方法一：[方法名]
+（将单词拆分成熟悉的部分，用表格列出每部分含义，然后用加粗的联想场景描述一个生动的画面）
+
+### 方法二：[方法名]
+（另一种拆分或联想方式）
+
+### 方法三：谐音法
+（用中文谐音编一个有趣的故事/画面，越荒诞越好记）
+
+---
+
+## 词族串联
+（用表格展示同词根/同家族的其他单词，帮助举一反三）
+
+---
+
+## 词源趣闻
+（只写有把握的真实词源；不确定时明确写“暂无可靠词源信息”，再单独提供帮助记忆的文化联想，禁止把联想伪装成词源事实）
+
+---
+
+## 例句
+（3个例句，英文加粗目标单词，下面附中文翻译）
+
+---
+
+## 常见搭配
+（用表格列出4-6个常见搭配及含义）
+
+要求：
+1. 联想场景要生动、有画面感，最好荒诞有趣，让人过目不忘
+2. 谐音要尽量贴近原词发音
+3. 如果单词可以拆成已知英语单词（如 test + money），优先用这种方式
+4. 词族串联要有实际意义，不要硬凑
+5. 所有内容用中文解释
+6. 只输出 Markdown 内容，不要加代码块标记
+7. 必须保留上述全部二级标题，不得省略章节
+8. 表格表头和数据单元格都不要加粗，避免破坏结构化解析`;
+
+const PHRASE_PROMPT = `你是一个英语词组速记大师。用户会给你一个英语词组/短语，你需要生成一份帮助快速记忆的 Markdown 文档。
+
+请严格按照以下格式输出（用 Markdown 语法）：
+
+# 巧记词组：[词组]
+
+## 词组信息
+| 词组 | 音标 | 中文含义 | 使用场景 |
+| --- | --- | --- | --- |
+| [词组] | [音标] | [最常用的中文含义] | [简要场景] |
+
+---
+
+## 拆分速记
+
+### 逐词拆解
+（将词组中每个单词的含义列出来，用表格展示）
+
+### 方法一：画面联想法
+（把词组的字面意思编成一个生动荒诞的画面，让人一看就记住实际含义）
+
+### 方法二：谐音/故事法
+（用中文谐音或编一个小故事来记忆）
+
+---
+
+## 使用场景
+（列出3-4个典型使用场景，每个场景配一句例句）
+
+---
+
+## 近义表达
+（用表格列出2-4个意思相近的词组/表达，帮助扩展）
+
+---
+
+## 易混辨析
+（如果有容易混淆的类似词组，用表格对比说明区别）
+
+要求：
+1. 画面联想要生动有趣，越荒诞越好记
+2. 重点解释词组为什么是这个意思（字面义 vs 实际义）
+3. 所有内容用中文解释
+4. 只输出 Markdown 内容，不要加代码块标记
+5. 必须保留上述全部二级标题，不得省略章节
+6. 表格表头和数据单元格都不要加粗，避免破坏结构化解析`;
+
+/* ===== Generate ===== */
+function normalizeGeneratedMarkdown(markdown) {
+  return String(markdown || '')
+    .replace(/^\s*```(?:markdown|md)?\s*$/gim, '')
+    .trim();
+}
+
+function validateGeneratedMarkdown(markdown, mode) {
+  const normalized = normalizeGeneratedMarkdown(markdown);
+  if (!normalized) throw new Error('API 返回内容为空');
+
+  const headings = [...normalized.matchAll(/^#{1,6}\s+(.+)$/gm)]
+    .map(match => normalizeHeaderName(match[1]));
+  const required = mode === 'word'
+    ? ['单词信息', '拆分巧记', '词族串联', '词源趣闻', '例句', '常见搭配']
+    : ['词组信息', '拆分速记', '使用场景', '近义表达', '易混辨析'];
+  const missing = required.filter(name => !headings.some(heading => heading.includes(name)));
+  if (missing.length) {
+    throw new Error(`生成内容不完整（缺少：${missing.join('、')}），请重试`);
+  }
+
+  const cardInfo = extractCardInfo(normalized);
+  if (!cardInfo.meaning) {
+    throw new Error('生成内容缺少可识别的中文含义表格，请重试');
+  }
+  return normalized;
+}
+
+function validateQuery(value, mode) {
+  const token = "[A-Za-z]+(?:['-][A-Za-z]+)*";
+  const pattern = mode === 'word'
+    ? new RegExp(`^${token}$`)
+    : new RegExp(`^${token}(?:\\s+${token})+$`);
+  if (!pattern.test(value)) {
+    throw new Error(mode === 'word'
+      ? '请输入一个有效的英语单词（可包含连字符或撇号）'
+      : '请输入由至少两个英语单词组成的词组');
+  }
+}
+
+async function generate() {
+  const word = wordInput.value.trim();
+  const apiKey = apiKeyInput.value.trim();
+  const requestMode = currentMode;
+
+  if (!word) { showError(requestMode === 'word' ? '请输入一个单词' : '请输入一个词组'); return; }
+  if (!apiKey) { showError('请输入 DeepSeek API Key'); return; }
+  try { validateQuery(word, requestMode); } catch (err) { showError(err.message); return; }
+
+  persistApiKeyPreference();
+
+  generateBtn.disabled = true;
+  document.querySelectorAll('.mode-tab').forEach(tab => { tab.disabled = true; });
+  loadingEl.classList.add('active');
+  resultArea.classList.remove('active');
+  welcomeArea.style.display = 'none';
+  mainActions.style.display = 'none';
+  errorMsg.classList.remove('active');
+
+  const abortController = new AbortController();
+  const timeoutId = setTimeout(() => abortController.abort(), 60000);
+  try {
+    const res = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: 'deepseek-v4-flash',
+        messages: [
+          { role: 'system', content: requestMode === 'word' ? WORD_PROMPT : PHRASE_PROMPT },
+          { role: 'user', content: `${requestMode === 'word' ? '单词' : '词组'}：${word}` }
+        ],
+        temperature: 0.8,
+        max_tokens: 5000
+      }),
+      signal: abortController.signal
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `API 请求失败 (${res.status})`);
+    }
+
+    const data = await res.json();
+    const choice = data.choices?.[0];
+    if (!choice) throw new Error('API 返回格式异常');
+    if (choice.finish_reason !== 'stop') {
+      const reasonMessages = {
+        length: '生成内容达到长度上限，结果可能不完整，请重试',
+        content_filter: '生成内容被安全策略中止，请换一个输入后重试',
+        insufficient_system_resource: 'DeepSeek 服务资源暂时不足，请稍后重试',
+        tool_calls: 'API 返回了非预期的工具调用，请重试'
+      };
+      throw new Error(reasonMessages[choice.finish_reason] || `生成未正常完成（${choice.finish_reason || '未知原因'}）`);
+    }
+    const md = validateGeneratedMarkdown(choice.message?.content, requestMode);
+
+    applyModeUI(requestMode);
+    lastWord = word;
+    lastMarkdown = md;
+    mainTitle.textContent = `${requestMode === 'word' ? '单词' : '词组'}：${word}`;
+    renderMarkdown(md);
+    resultArea.classList.add('active');
+    mainActions.style.display = 'flex';
+    setLookupCollapsed(true);
+    updateFavBtn();
+    renderFavorites(searchInput.value);
+  } catch (err) {
+    const message = err?.name === 'AbortError'
+      ? '请求超时（60 秒），请检查网络后重试'
+      : (err.message || '生成失败，请检查 API Key 和网络');
+    showError(message);
+    if (lastMarkdown) {
+      renderMarkdown(lastMarkdown);
+      resultArea.classList.add('active');
+      mainActions.style.display = 'flex';
+      welcomeArea.style.display = 'none';
+    } else {
+      welcomeArea.style.display = 'flex';
+      mainActions.style.display = 'none';
+    }
+  } finally {
+    clearTimeout(timeoutId);
+    generateBtn.disabled = false;
+    document.querySelectorAll('.mode-tab').forEach(tab => { tab.disabled = false; });
+    loadingEl.classList.remove('active');
+  }
+}
+
+function copyMarkdown() {
+  if (!lastMarkdown) return;
+  navigator.clipboard.writeText(lastMarkdown).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    btn.textContent = '\u2705';
+    setTimeout(() => btn.textContent = '\uD83D\uDCCB', 1500);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = lastMarkdown;
+    document.body.appendChild(ta);
+    ta.select();
+    const copied = document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (!copied) showError('复制失败，请手动选择内容复制');
+  });
+}
+</script>
+
+
+</body></html>
